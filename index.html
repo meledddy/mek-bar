@@ -49,7 +49,7 @@
         pointer-events: none;
       }
 
-      /* Очень дальний намёк на армянский триколор */
+      /* very subtle hint of Armenian tricolor (3–4 plane) */
       .bg::before {
         content: "";
         position: absolute;
@@ -65,28 +65,44 @@
       .bg .vignette {
         position: absolute;
         inset: 0;
-        background: radial-gradient(
-          1200px 900px at 50% 30%,
-          transparent 35%,
-          rgba(0, 0, 0, 0.55) 90%
-        );
+        background: radial-gradient(1200px 900px at 50% 30%, transparent 35%, rgba(0, 0, 0, 0.55) 90%);
         opacity: 0.9;
       }
 
-      /* ===== Central pomegranate ===== */
+      /* ===== Pomegranate placement (composition-aware) =====
+         Idea:
+         - card remains the center
+         - pomegranate is slightly BELOW and to the RIGHT,
+           so it's visible and "supports" the card, not sits behind it
+      */
       .pomegranate {
         position: absolute;
         left: 50%;
         top: 50%;
-        transform: translate(-50%, -50%);
-        width: min(420px, 78vw);
-        opacity: 0.38;
+
+        /* push it down-right relative to center */
+        transform: translate(-50%, -50%) translate(170px, 210px);
+
+        width: min(520px, 92vw);
+        opacity: 0.26;
+
+        /* makes it sit in the background without looking like a sticker */
+        filter: blur(0px);
       }
 
       .pomegranate svg {
         width: 100%;
         height: auto;
         display: block;
+      }
+
+      /* Mobile: reduce offset so it doesn't go off-screen */
+      @media (max-width: 520px) {
+        .pomegranate {
+          transform: translate(-50%, -50%) translate(110px, 230px);
+          width: min(520px, 110vw);
+          opacity: 0.22;
+        }
       }
 
       /* ===== Layout ===== */
@@ -103,11 +119,7 @@
         position: relative;
         width: min(560px, 92vw);
         border-radius: 22px;
-        background: linear-gradient(
-          180deg,
-          rgba(12, 18, 38, 0.62),
-          rgba(8, 12, 24, 0.62)
-        );
+        background: linear-gradient(180deg, rgba(12, 18, 38, 0.62), rgba(8, 12, 24, 0.62));
         border: 1px solid var(--stroke);
         box-shadow:
           0 24px 80px rgba(0, 0, 0, 0.55),
@@ -132,10 +144,7 @@
         pointer-events: none;
       }
 
-      .card-inner {
-        position: relative;
-        padding: 18px 18px 14px 18px;
-      }
+      .card-inner { position: relative; padding: 18px 18px 14px 18px; }
 
       .topbar {
         display: flex;
@@ -182,12 +191,7 @@
         margin: 6px 0 12px 0;
       }
 
-      .chips {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-        margin: 0 0 12px 0;
-      }
+      .chips { display: flex; gap: 10px; flex-wrap: wrap; margin: 0 0 12px 0; }
 
       .chip {
         display: inline-flex;
@@ -201,10 +205,7 @@
         font-size: 12px;
       }
 
-      .chip strong {
-        font-weight: 600;
-        color: rgba(255, 255, 255, 0.88);
-      }
+      .chip strong { font-weight: 600; color: rgba(255, 255, 255, 0.88); }
 
       .meaning {
         font-weight: 600;
@@ -223,12 +224,7 @@
       .hr {
         height: 1px;
         width: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.16),
-          transparent
-        );
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.16), transparent);
         margin: 14px 0;
         opacity: 0.7;
       }
@@ -252,29 +248,36 @@
         color: rgba(255, 255, 255, 0.38);
         font-size: 12px;
       }
+
+      @media (prefers-reduced-motion: no-preference) {
+        .card { animation: cardIn 420ms ease-out both; }
+        @keyframes cardIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      }
     </style>
   </head>
 
   <body>
     <div class="bg" aria-hidden="true">
-      <!-- Central Armenian pomegranate -->
       <div class="pomegranate" aria-hidden="true">
         <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <!-- Объём тела -->
-            <radialGradient id="bodyGrad" cx="45%" cy="30%" r="70%">
-              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.28" />
-              <stop offset="100%" stop-color="#ffffff" stop-opacity="0.04" />
+            <!-- soft body light -->
+            <radialGradient id="bodyGrad" cx="45%" cy="28%" r="72%">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.26" />
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="0.03" />
             </radialGradient>
 
-            <!-- Очень тихий цветовой слой (намёк на гранат) -->
+            <!-- quiet fruit tone -->
             <linearGradient id="fruitTone" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stop-color="#8b2f2f" stop-opacity="0.55" />
-              <stop offset="100%" stop-color="#5a1f1f" stop-opacity="0.55" />
+              <stop offset="100%" stop-color="#4f1a1a" stop-opacity="0.55" />
             </linearGradient>
           </defs>
 
-          <!-- Корона -->
+          <!-- crown -->
           <path
             d="M200 40
                C188 58 168 66 150 70
@@ -289,44 +292,44 @@
             fill-opacity="0.10"
           />
 
-          <!-- Тело граната -->
+          <!-- body -->
           <path
             d="M200 70
-               C130 90 90 140 90 210
-               C90 300 140 350 200 360
-               C260 350 310 300 310 210
-               C310 140 270 90 200 70 Z"
+               C128 92 92 144 92 214
+               C92 306 146 354 200 364
+               C254 354 308 306 308 214
+               C308 144 272 92 200 70 Z"
             fill="url(#fruitTone)"
-            opacity="0.35"
+            opacity="0.34"
           />
 
-          <!-- Внутренний объём -->
+          <!-- inner volume -->
           <path
-            d="M200 96
-               C148 112 120 152 120 206
-               C120 270 152 308 200 320
-               C248 308 280 270 280 206
-               C280 152 252 112 200 96 Z"
+            d="M200 98
+               C152 114 124 152 124 206
+               C124 270 156 306 200 318
+               C244 306 276 270 276 206
+               C276 152 248 114 200 98 Z"
             fill="url(#bodyGrad)"
           />
 
-          <!-- Зёрна (минимально, органично) -->
-          <circle cx="175" cy="215" r="12" fill="#ffffff" opacity="0.07" />
-          <circle cx="210" cy="200" r="10" fill="#ffffff" opacity="0.06" />
-          <circle cx="195" cy="245" r="11" fill="#ffffff" opacity="0.06" />
-          <circle cx="230" cy="235" r="9" fill="#ffffff" opacity="0.05" />
-          <circle cx="165" cy="245" r="9" fill="#ffffff" opacity="0.05" />
+          <!-- seeds hint -->
+          <circle cx="172" cy="214" r="12" fill="#ffffff" opacity="0.06" />
+          <circle cx="208" cy="198" r="10" fill="#ffffff" opacity="0.055" />
+          <circle cx="196" cy="244" r="11" fill="#ffffff" opacity="0.055" />
+          <circle cx="232" cy="232" r="9" fill="#ffffff" opacity="0.045" />
+          <circle cx="162" cy="244" r="9" fill="#ffffff" opacity="0.045" />
 
-          <!-- Контур -->
+          <!-- outline -->
           <path
             d="M200 70
-               C130 90 90 140 90 210
-               C90 300 140 350 200 360
-               C260 350 310 300 310 210
-               C310 140 270 90 200 70 Z"
+               C128 92 92 144 92 214
+               C92 306 146 354 200 364
+               C254 354 308 306 308 214
+               C308 144 272 92 200 70 Z"
             fill="none"
             stroke="#ffffff"
-            stroke-opacity="0.08"
+            stroke-opacity="0.07"
             stroke-width="2"
           />
         </svg>
