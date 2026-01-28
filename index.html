@@ -41,7 +41,7 @@
         overflow-x: hidden;
       }
 
-      /* ===== Decorative background layer (NO mountains) ===== */
+      /* ===== Background layer ===== */
       .bg {
         position: fixed;
         inset: 0;
@@ -49,52 +49,44 @@
         pointer-events: none;
       }
 
-      /* very subtle hint of Armenian tricolor (3–4 plane) */
+      /* Очень дальний намёк на армянский триколор */
       .bg::before {
         content: "";
         position: absolute;
         inset: 0;
         background: linear-gradient(
           180deg,
-          rgba(162, 58, 58, 0.05) 0%,
-          rgba(38, 73, 140, 0.06) 45%,
+          rgba(162, 58, 58, 0.04) 0%,
+          rgba(38, 73, 140, 0.06) 50%,
           rgba(197, 128, 52, 0.05) 100%
         );
-        opacity: 1;
       }
 
-      .bg .glowline {
+      .bg .vignette {
         position: absolute;
-        left: 50%;
-        top: -20vh;
-        transform: translateX(-50%);
-        width: min(1200px, 140vw);
-        height: 60vh;
-        background: radial-gradient(closest-side, rgba(120, 160, 255, 0.16), transparent 70%);
-        opacity: 0.85;
+        inset: 0;
+        background: radial-gradient(
+          1200px 900px at 50% 30%,
+          transparent 35%,
+          rgba(0, 0, 0, 0.55) 90%
+        );
+        opacity: 0.9;
       }
 
-      /* Pomegranate symbol */
+      /* ===== Central pomegranate ===== */
       .pomegranate {
         position: absolute;
-        right: clamp(16px, 6vw, 72px);
-        bottom: clamp(18px, 6vh, 64px);
-        width: clamp(140px, 22vw, 240px);
-        opacity: 0.65;
-        filter: blur(0px);
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: min(420px, 78vw);
+        opacity: 0.38;
       }
 
       .pomegranate svg {
         width: 100%;
         height: auto;
         display: block;
-      }
-
-      .bg .vignette {
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(1200px 900px at 50% 30%, transparent 35%, rgba(0, 0, 0, 0.55) 90%);
-        opacity: 0.9;
       }
 
       /* ===== Layout ===== */
@@ -111,7 +103,11 @@
         position: relative;
         width: min(560px, 92vw);
         border-radius: 22px;
-        background: linear-gradient(180deg, rgba(12, 18, 38, 0.62), rgba(8, 12, 24, 0.62));
+        background: linear-gradient(
+          180deg,
+          rgba(12, 18, 38, 0.62),
+          rgba(8, 12, 24, 0.62)
+        );
         border: 1px solid var(--stroke);
         box-shadow:
           0 24px 80px rgba(0, 0, 0, 0.55),
@@ -136,7 +132,10 @@
         pointer-events: none;
       }
 
-      .card-inner { position: relative; padding: 18px 18px 14px 18px; }
+      .card-inner {
+        position: relative;
+        padding: 18px 18px 14px 18px;
+      }
 
       .topbar {
         display: flex;
@@ -164,7 +163,6 @@
         border: 1px solid rgba(255, 255, 255, 0.10);
         padding: 7px 10px;
         border-radius: 999px;
-        user-select: none;
       }
 
       .pill .dot {
@@ -184,7 +182,12 @@
         margin: 6px 0 12px 0;
       }
 
-      .chips { display: flex; gap: 10px; flex-wrap: wrap; margin: 0 0 12px 0; }
+      .chips {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin: 0 0 12px 0;
+      }
 
       .chip {
         display: inline-flex;
@@ -198,12 +201,15 @@
         font-size: 12px;
       }
 
-      .chip strong { font-weight: 600; color: rgba(255, 255, 255, 0.88); }
+      .chip strong {
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.88);
+      }
 
       .meaning {
         font-weight: 600;
         font-size: 16px;
-        margin: 10px 0 10px 0;
+        margin: 10px 0;
         color: rgba(255, 255, 255, 0.88);
       }
 
@@ -217,7 +223,12 @@
       .hr {
         height: 1px;
         width: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.16), transparent);
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.16),
+          transparent
+        );
         margin: 14px 0;
         opacity: 0.7;
       }
@@ -241,85 +252,78 @@
         color: rgba(255, 255, 255, 0.38);
         font-size: 12px;
       }
-
-      @media (prefers-reduced-motion: no-preference) {
-        .card { animation: cardIn 420ms ease-out both; }
-        @keyframes cardIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-      }
     </style>
   </head>
 
   <body>
     <div class="bg" aria-hidden="true">
-      <div class="glowline"></div>
-
-      <!-- Armenian pomegranate symbol (minimal, quiet) -->
+      <!-- Central Armenian pomegranate -->
       <div class="pomegranate" aria-hidden="true">
-        <svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="armFlagHint" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#b23a3a" stop-opacity="0.55" />
-              <stop offset="52%" stop-color="#2f5aa0" stop-opacity="0.55" />
-              <stop offset="100%" stop-color="#c48734" stop-opacity="0.55" />
-            </linearGradient>
-
-            <radialGradient id="softGlow" cx="45%" cy="30%" r="75%">
-              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.22" />
-              <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+            <!-- Объём тела -->
+            <radialGradient id="bodyGrad" cx="45%" cy="30%" r="70%">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.28" />
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="0.04" />
             </radialGradient>
+
+            <!-- Очень тихий цветовой слой (намёк на гранат) -->
+            <linearGradient id="fruitTone" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#8b2f2f" stop-opacity="0.55" />
+              <stop offset="100%" stop-color="#5a1f1f" stop-opacity="0.55" />
+            </linearGradient>
           </defs>
 
-          <!-- Body -->
+          <!-- Корона -->
           <path
-            d="M160 38
-               C150 54 138 62 124 66
-               C132 68 142 66 150 62
-               C150 78 132 92 114 98
-               C80 110 58 140 58 178
-               C58 240 104 282 160 282
-               C216 282 262 240 262 178
-               C262 140 240 110 206 98
-               C188 92 170 78 170 62
-               C178 66 188 68 196 66
-               C182 62 170 54 160 38 Z"
-            fill="url(#armFlagHint)"
-            opacity="0.18"
+            d="M200 40
+               C188 58 168 66 150 70
+               C162 72 176 70 188 66
+               C188 84 168 100 148 106
+               C178 96 198 82 200 70
+               C202 82 222 96 252 106
+               C232 100 212 84 212 66
+               C224 70 238 72 250 70
+               C232 66 212 58 200 40 Z"
+            fill="#ffffff"
+            fill-opacity="0.10"
           />
 
-          <!-- Inner soft light -->
+          <!-- Тело граната -->
           <path
-            d="M160 72
-               C126 86 104 116 104 156
-               C104 212 132 244 160 256
-               C188 244 216 212 216 156
-               C216 116 194 86 160 72 Z"
-            fill="url(#softGlow)"
-            opacity="0.30"
+            d="M200 70
+               C130 90 90 140 90 210
+               C90 300 140 350 200 360
+               C260 350 310 300 310 210
+               C310 140 270 90 200 70 Z"
+            fill="url(#fruitTone)"
+            opacity="0.35"
           />
 
-          <!-- Seeds hint -->
-          <circle cx="130" cy="170" r="10" fill="#ffffff" opacity="0.07" />
-          <circle cx="160" cy="154" r="11" fill="#ffffff" opacity="0.06" />
-          <circle cx="190" cy="174" r="10" fill="#ffffff" opacity="0.07" />
-          <circle cx="150" cy="198" r="9" fill="#ffffff" opacity="0.06" />
-          <circle cx="176" cy="206" r="9" fill="#ffffff" opacity="0.06" />
-
-          <!-- Stroke -->
+          <!-- Внутренний объём -->
           <path
-            d="M160 38
-               C150 54 138 62 124 66
-               C132 68 142 66 150 62
-               C150 78 132 92 114 98
-               C80 110 58 140 58 178
-               C58 240 104 282 160 282
-               C216 282 262 240 262 178
-               C262 140 240 110 206 98
-               C188 92 170 78 170 62
-               C178 66 188 68 196 66
-               C182 62 170 54 160 38 Z"
+            d="M200 96
+               C148 112 120 152 120 206
+               C120 270 152 308 200 320
+               C248 308 280 270 280 206
+               C280 152 252 112 200 96 Z"
+            fill="url(#bodyGrad)"
+          />
+
+          <!-- Зёрна (минимально, органично) -->
+          <circle cx="175" cy="215" r="12" fill="#ffffff" opacity="0.07" />
+          <circle cx="210" cy="200" r="10" fill="#ffffff" opacity="0.06" />
+          <circle cx="195" cy="245" r="11" fill="#ffffff" opacity="0.06" />
+          <circle cx="230" cy="235" r="9" fill="#ffffff" opacity="0.05" />
+          <circle cx="165" cy="245" r="9" fill="#ffffff" opacity="0.05" />
+
+          <!-- Контур -->
+          <path
+            d="M200 70
+               C130 90 90 140 90 210
+               C90 300 140 350 200 360
+               C260 350 310 300 310 210
+               C310 140 270 90 200 70 Z"
             fill="none"
             stroke="#ffffff"
             stroke-opacity="0.08"
@@ -343,7 +347,7 @@
 
           <div class="chips">
             <div class="chip"><span>лат.:</span><strong>ser</strong></div>
-            <div class="chip"><span>рус.:</span><strong>сэ́р</strong></div>
+            <div class="chip"><span>рус.:</span><strong>сэр</strong></div>
           </div>
 
           <div class="meaning">Нежность · Любовь</div>
@@ -364,8 +368,8 @@
           <div class="hr"></div>
 
           <div class="footer">
-            <div>для тебя🫶</div>
-            <div>обновлю завтра - если захочешь</div>
+            <div>для тебя</div>
+            <div>обновлю завтра — если захочешь</div>
           </div>
         </div>
       </section>
