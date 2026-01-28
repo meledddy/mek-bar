@@ -41,7 +41,7 @@
         overflow-x: hidden;
       }
 
-      /* ===== Background layer ===== */
+      /* ===== Decorative background layer (NO mountains) ===== */
       .bg {
         position: fixed;
         inset: 0;
@@ -56,37 +56,31 @@
         inset: 0;
         background: linear-gradient(
           180deg,
-          rgba(162, 58, 58, 0.04) 0%,
-          rgba(38, 73, 140, 0.06) 50%,
+          rgba(162, 58, 58, 0.05) 0%,
+          rgba(38, 73, 140, 0.06) 45%,
           rgba(197, 128, 52, 0.05) 100%
         );
+        opacity: 1;
       }
 
-      .bg .vignette {
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(1200px 900px at 50% 30%, transparent 35%, rgba(0, 0, 0, 0.55) 90%);
-        opacity: 0.9;
-      }
-
-      /* ===== Pomegranate placement (composition-aware) =====
-         Idea:
-         - card remains the center
-         - pomegranate is slightly BELOW and to the RIGHT,
-           so it's visible and "supports" the card, not sits behind it
-      */
-      .pomegranate {
+      .bg .glowline {
         position: absolute;
         left: 50%;
-        top: 50%;
+        top: -20vh;
+        transform: translateX(-50%);
+        width: min(1200px, 140vw);
+        height: 60vh;
+        background: radial-gradient(closest-side, rgba(120, 160, 255, 0.16), transparent 70%);
+        opacity: 0.85;
+      }
 
-        /* push it down-right relative to center */
-        transform: translate(-50%, -50%) translate(170px, 210px);
-
-        width: min(520px, 92vw);
-        opacity: 0.26;
-
-        /* makes it sit in the background without looking like a sticker */
+      /* Pomegranate symbol */
+      .pomegranate {
+        position: absolute;
+        right: clamp(16px, 6vw, 72px);
+        bottom: clamp(18px, 6vh, 64px);
+        width: clamp(140px, 22vw, 240px);
+        opacity: 0.55;
         filter: blur(0px);
       }
 
@@ -96,13 +90,11 @@
         display: block;
       }
 
-      /* Mobile: reduce offset so it doesn't go off-screen */
-      @media (max-width: 520px) {
-        .pomegranate {
-          transform: translate(-50%, -50%) translate(110px, 230px);
-          width: min(520px, 110vw);
-          opacity: 0.22;
-        }
+      .bg .vignette {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(1200px 900px at 50% 30%, transparent 35%, rgba(0, 0, 0, 0.55) 90%);
+        opacity: 0.9;
       }
 
       /* ===== Layout ===== */
@@ -172,6 +164,7 @@
         border: 1px solid rgba(255, 255, 255, 0.10);
         padding: 7px 10px;
         border-radius: 999px;
+        user-select: none;
       }
 
       .pill .dot {
@@ -210,7 +203,7 @@
       .meaning {
         font-weight: 600;
         font-size: 16px;
-        margin: 10px 0;
+        margin: 10px 0 10px 0;
         color: rgba(255, 255, 255, 0.88);
       }
 
@@ -261,75 +254,75 @@
 
   <body>
     <div class="bg" aria-hidden="true">
-      <div class="pomegranate" aria-hidden="true">
-        <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <!-- soft body light -->
-            <radialGradient id="bodyGrad" cx="45%" cy="28%" r="72%">
-              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.26" />
-              <stop offset="100%" stop-color="#ffffff" stop-opacity="0.03" />
-            </radialGradient>
+      <div class="glowline"></div>
 
-            <!-- quiet fruit tone -->
-            <linearGradient id="fruitTone" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#8b2f2f" stop-opacity="0.55" />
-              <stop offset="100%" stop-color="#4f1a1a" stop-opacity="0.55" />
+      <!-- Armenian pomegranate symbol (minimal, quiet) -->
+      <div class="pomegranate" aria-hidden="true">
+        <svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="armFlagHint" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#b23a3a" stop-opacity="0.55" />
+              <stop offset="52%" stop-color="#2f5aa0" stop-opacity="0.55" />
+              <stop offset="100%" stop-color="#c48734" stop-opacity="0.55" />
             </linearGradient>
+
+            <radialGradient id="softGlow" cx="45%" cy="30%" r="75%">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.22" />
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+            </radialGradient>
           </defs>
 
-          <!-- crown -->
+          <!-- Body -->
           <path
-            d="M200 40
-               C188 58 168 66 150 70
-               C162 72 176 70 188 66
-               C188 84 168 100 148 106
-               C178 96 198 82 200 70
-               C202 82 222 96 252 106
-               C232 100 212 84 212 66
-               C224 70 238 72 250 70
-               C232 66 212 58 200 40 Z"
-            fill="#ffffff"
-            fill-opacity="0.10"
+            d="M160 38
+               C150 54 138 62 124 66
+               C132 68 142 66 150 62
+               C150 78 132 92 114 98
+               C80 110 58 140 58 178
+               C58 240 104 282 160 282
+               C216 282 262 240 262 178
+               C262 140 240 110 206 98
+               C188 92 170 78 170 62
+               C178 66 188 68 196 66
+               C182 62 170 54 160 38 Z"
+            fill="url(#armFlagHint)"
+            opacity="0.18"
           />
 
-          <!-- body -->
+          <!-- Inner soft light -->
           <path
-            d="M200 70
-               C128 92 92 144 92 214
-               C92 306 146 354 200 364
-               C254 354 308 306 308 214
-               C308 144 272 92 200 70 Z"
-            fill="url(#fruitTone)"
-            opacity="0.34"
+            d="M160 72
+               C126 86 104 116 104 156
+               C104 212 132 244 160 256
+               C188 244 216 212 216 156
+               C216 116 194 86 160 72 Z"
+            fill="url(#softGlow)"
+            opacity="0.30"
           />
 
-          <!-- inner volume -->
-          <path
-            d="M200 98
-               C152 114 124 152 124 206
-               C124 270 156 306 200 318
-               C244 306 276 270 276 206
-               C276 152 248 114 200 98 Z"
-            fill="url(#bodyGrad)"
-          />
+          <!-- Seeds hint -->
+          <circle cx="130" cy="170" r="10" fill="#ffffff" opacity="0.07" />
+          <circle cx="160" cy="154" r="11" fill="#ffffff" opacity="0.06" />
+          <circle cx="190" cy="174" r="10" fill="#ffffff" opacity="0.07" />
+          <circle cx="150" cy="198" r="9" fill="#ffffff" opacity="0.06" />
+          <circle cx="176" cy="206" r="9" fill="#ffffff" opacity="0.06" />
 
-          <!-- seeds hint -->
-          <circle cx="172" cy="214" r="12" fill="#ffffff" opacity="0.06" />
-          <circle cx="208" cy="198" r="10" fill="#ffffff" opacity="0.055" />
-          <circle cx="196" cy="244" r="11" fill="#ffffff" opacity="0.055" />
-          <circle cx="232" cy="232" r="9" fill="#ffffff" opacity="0.045" />
-          <circle cx="162" cy="244" r="9" fill="#ffffff" opacity="0.045" />
-
-          <!-- outline -->
+          <!-- Stroke -->
           <path
-            d="M200 70
-               C128 92 92 144 92 214
-               C92 306 146 354 200 364
-               C254 354 308 306 308 214
-               C308 144 272 92 200 70 Z"
+            d="M160 38
+               C150 54 138 62 124 66
+               C132 68 142 66 150 62
+               C150 78 132 92 114 98
+               C80 110 58 140 58 178
+               C58 240 104 282 160 282
+               C216 282 262 240 262 178
+               C262 140 240 110 206 98
+               C188 92 170 78 170 62
+               C178 66 188 68 196 66
+               C182 62 170 54 160 38 Z"
             fill="none"
             stroke="#ffffff"
-            stroke-opacity="0.07"
+            stroke-opacity="0.08"
             stroke-width="2"
           />
         </svg>
@@ -372,7 +365,7 @@
 
           <div class="footer">
             <div>для тебя</div>
-            <div>обновлю завтра — если захочешь</div>
+            <div>обновлю завтра - если захочешь</div>
           </div>
         </div>
       </section>
