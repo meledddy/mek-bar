@@ -304,17 +304,32 @@
       <div class="glowline"></div>
 
       <!-- SVG гора/пейзаж: можно заменить на свой PNG/SVG, но этот уже работает -->
-      <svg class="mountains" viewBox="0 0 1600 520" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="g0" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="white" stop-opacity="0.18" />
-            <stop offset="1" stop-color="white" stop-opacity="0.02" />
-          </linearGradient>
-          <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="white" stop-opacity="0.22" />
-            <stop offset="1" stop-color="white" stop-opacity="0.03" />
-          </linearGradient>
-        </defs>
+      <svg class="mountains" viewBox="0 0 1600 520" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <linearGradient id="araratMain" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="white" stop-opacity="0.20"></stop>
+      <stop offset="1" stop-color="white" stop-opacity="0.04"></stop>
+    </linearGradient>
+    <linearGradient id="araratSmall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="white" stop-opacity="0.16"></stop>
+      <stop offset="1" stop-color="white" stop-opacity="0.03"></stop>
+    </linearGradient>
+  </defs>
+
+  <!-- ground -->
+  <path d="M-10,520 C200,460 420,440 640,450 C860,460 1080,500 1300,480 C1460,465 1560,440 1610,420 L1610,520 Z" fill="white" fill-opacity="0.06"></path>
+
+  <!-- Малый Арарат (слева) -->
+  <path d="M520,520 L720,360 L900,520 Z" fill="url(#araratSmall)"></path>
+  <path d="M720,360 L800,520 L900,520 Z" fill="white" fill-opacity="0.05"></path>
+
+  <!-- Большой Арарат (справа, выше) -->
+  <path d="M860,520 L1120,260 L1380,520 Z" fill="url(#araratMain)"></path>
+  <path d="M1120,260 L1240,520 L1380,520 Z" fill="white" fill-opacity="0.06"></path>
+
+  <!-- мягкий передний хребет -->
+  <path d="M-10,520 C260,500 480,490 700,500 C920,510 1120,520 1360,505 C1500,495 1580,480 1610,470 L1610,520 Z" fill="white" fill-opacity="0.04"></path>
+</svg>
 
         <!-- ground -->
         <path
