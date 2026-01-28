@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Մեկ բառ / Одно слово</title>
 
-    <!-- Fonts: Armenian + Cyrillic (safe, clean) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,21 +16,20 @@
       :root {
         --bg0: #050710;
         --bg1: #0a1230;
-        --card: rgba(11, 16, 34, 0.62);
-        --card-strong: rgba(11, 16, 34, 0.74);
-        --stroke: rgba(255, 255, 255, 0.10);
+
+        --stroke: rgba(255, 255, 255, 0.1);
         --stroke2: rgba(255, 255, 255, 0.08);
+
         --text: rgba(255, 255, 255, 0.92);
-        --muted: rgba(255, 255, 255, 0.60);
+        --muted: rgba(255, 255, 255, 0.6);
         --muted2: rgba(255, 255, 255, 0.46);
-        --soft: rgba(255, 255, 255, 0.12);
+
         --dot: #e8c36a;
       }
 
       * {
         box-sizing: border-box;
       }
-
       html,
       body {
         height: 100%;
@@ -41,13 +39,16 @@
         margin: 0;
         color: var(--text);
         font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-        background: radial-gradient(1200px 700px at 70% 20%, rgba(40, 70, 160, 0.35), transparent 55%),
+
+        /* как на скриншоте: мягкий тёплый/синий верх + тёмное основание */
+        background:
+          radial-gradient(1200px 700px at 70% 20%, rgba(40, 70, 160, 0.35), transparent 55%),
           radial-gradient(900px 600px at 25% 0%, rgba(170, 120, 60, 0.18), transparent 55%),
           linear-gradient(180deg, var(--bg0), var(--bg1));
         overflow-x: hidden;
       }
 
-      /* Variant 1: гора НЕ фон, а отдельный декоративный слой */
+      /* ===== Background layer (NO background-image, no crop) ===== */
       .bg {
         position: fixed;
         inset: 0;
@@ -55,22 +56,18 @@
         pointer-events: none;
       }
 
-      .bg .vignette {
+      /* очень дальний триколор (3–4 план): красный -> синий -> оранжевый */
+      .bg::before {
+        content: "";
         position: absolute;
         inset: 0;
-        background: radial-gradient(1200px 900px at 50% 30%, transparent 35%, rgba(0, 0, 0, 0.55) 90%);
-        opacity: 0.9;
-      }
-
-      .bg .mountains {
-        position: absolute;
-        left: 50%;
-        bottom: -2vh;
-        transform: translateX(-50%);
-        width: min(1400px, 130vw);
-        height: auto;
-        opacity: 0.26;
-        filter: blur(0px);
+        background: linear-gradient(
+          180deg,
+          rgba(162, 58, 58, 0.06) 0%,
+          rgba(38, 73, 140, 0.07) 45%,
+          rgba(197, 128, 52, 0.05) 100%
+        );
+        opacity: 1;
       }
 
       .bg .glowline {
@@ -81,10 +78,30 @@
         width: min(1200px, 140vw);
         height: 60vh;
         background: radial-gradient(closest-side, rgba(120, 160, 255, 0.16), transparent 70%);
-        opacity: 0.8;
+        opacity: 0.85;
       }
 
-      /* Layout */
+      /* SVG-ландшафт как на твоём скрине: слои + “пирамидка” слева */
+      .bg .mountains {
+        position: absolute;
+        left: 50%;
+        bottom: -2vh;
+        transform: translateX(-50%);
+        width: min(1600px, 140vw);
+        height: auto;
+
+        /* общая “тихость” */
+        opacity: 0.28;
+      }
+
+      .bg .vignette {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(1200px 900px at 50% 30%, transparent 35%, rgba(0, 0, 0, 0.55) 90%);
+        opacity: 0.9;
+      }
+
+      /* ===== Layout ===== */
       .wrap {
         position: relative;
         z-index: 1;
@@ -95,13 +112,12 @@
       }
 
       .card {
+        position: relative;
         width: min(560px, 92vw);
         border-radius: 22px;
         background: linear-gradient(180deg, rgba(12, 18, 38, 0.62), rgba(8, 12, 24, 0.62));
         border: 1px solid var(--stroke);
-        box-shadow:
-          0 24px 80px rgba(0, 0, 0, 0.55),
-          inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(14px);
         -webkit-backdrop-filter: blur(14px);
         overflow: hidden;
@@ -150,7 +166,7 @@
         font-size: 12px;
         color: rgba(255, 255, 255, 0.78);
         background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(255, 255, 255, 0.10);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         padding: 7px 10px;
         border-radius: 999px;
         user-select: none;
@@ -221,15 +237,13 @@
 
       .note {
         margin: 0;
-        color: rgba(255, 255, 255, 0.40);
+        color: rgba(255, 255, 255, 0.4);
         font-size: 13px;
         line-height: 1.6;
       }
-
       .note p {
         margin: 0 0 10px 0;
       }
-
       .note p:last-child {
         margin-bottom: 0;
       }
@@ -244,42 +258,6 @@
         font-size: 12px;
       }
 
-      /* Optional: audio button (если добавишь позже) */
-      .audio {
-        margin-top: 12px;
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        border-radius: 12px;
-        padding: 10px 12px;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.10);
-        color: rgba(255, 255, 255, 0.80);
-        font-size: 13px;
-        cursor: pointer;
-        user-select: none;
-      }
-
-      .audio:active {
-        transform: translateY(1px);
-      }
-
-      .audio .icon {
-        width: 28px;
-        height: 28px;
-        border-radius: 999px;
-        display: grid;
-        place-items: center;
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(255, 255, 255, 0.10);
-      }
-
-      .audio small {
-        color: rgba(255, 255, 255, 0.55);
-        font-size: 12px;
-      }
-
-      /* Subtle entrance */
       @media (prefers-reduced-motion: no-preference) {
         .card {
           animation: cardIn 420ms ease-out both;
@@ -299,42 +277,81 @@
   </head>
 
   <body>
-    <!-- Decorative background (Variant 1) -->
     <div class="bg" aria-hidden="true">
       <div class="glowline"></div>
 
-      <!-- SVG гора/пейзаж: можно заменить на свой PNG/SVG, но этот уже работает -->
-      <svg class="mountains" viewBox="0 0 1600 520" xmlns="http://www.w3.org/2000/svg">
+      <!-- ===== Демонстрация SVG + внедрение (вставлено в код) =====
+           Стили: мягкие градиенты/плоскости как на твоём скриншоте.
+           Это НЕ background-image => на телефоне не будет кропа. -->
+      <svg class="mountains" viewBox="0 0 1600 520" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
-          <linearGradient id="g0" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="white" stop-opacity="0.18" />
-            <stop offset="1" stop-color="white" stop-opacity="0.02" />
+          <!-- дальний слой -->
+          <linearGradient id="layerFar" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.10" />
+            <stop offset="100%" stop-color="#ffffff" stop-opacity="0.03" />
           </linearGradient>
-          <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="white" stop-opacity="0.22" />
-            <stop offset="1" stop-color="white" stop-opacity="0.03" />
+
+          <!-- средний слой -->
+          <linearGradient id="layerMid" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.14" />
+            <stop offset="100%" stop-color="#ffffff" stop-opacity="0.04" />
+          </linearGradient>
+
+          <!-- передний слой -->
+          <linearGradient id="layerFront" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.20" />
+            <stop offset="100%" stop-color="#ffffff" stop-opacity="0.06" />
+          </linearGradient>
+
+          <!-- лёгкая “плоскостная” подсветка -->
+          <linearGradient id="facet" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.18" />
+            <stop offset="100%" stop-color="#ffffff" stop-opacity="0.05" />
+          </linearGradient>
+
+          <linearGradient id="facetDark" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.10" />
+            <stop offset="100%" stop-color="#ffffff" stop-opacity="0.03" />
           </linearGradient>
         </defs>
 
-        <!-- ground -->
+        <!-- ДАЛЬНИЙ вал (самый мягкий, почти воздух) -->
         <path
-          d="M-10,520 C120,420 300,380 520,380 C760,380 940,460 1160,460 C1370,460 1500,410 1610,360 L1610,520 Z"
-          fill="url(#g0)"
+          d="M-10,520
+             C140,450 360,420 560,420
+             C780,420 980,470 1200,470
+             C1400,470 1520,430 1610,380
+             L1610,520 Z"
+          fill="url(#layerFar)"
         />
 
-        <!-- left pyramid -->
-        <path d="M220,520 L520,240 L840,520 Z" fill="white" fill-opacity="0.10" />
-        <path d="M520,240 L670,520 L840,520 Z" fill="white" fill-opacity="0.06" />
-
-        <!-- ararat silhouette -->
-        <path d="M780,520 L980,330 L1210,520 Z" fill="white" fill-opacity="0.08" />
-        <path d="M980,330 L1090,520 L1210,520 Z" fill="white" fill-opacity="0.05" />
-
-        <!-- soft ridge -->
+        <!-- СРЕДНИЙ вал (как на скрине справа — большой мягкий подъём) -->
         <path
-          d="M-10,520 C180,470 350,450 520,450 C700,450 880,500 1080,500 C1280,500 1440,460 1610,430 L1610,520 Z"
-          fill="url(#g1)"
+          d="M-10,520
+             C180,490 380,470 600,470
+             C820,470 980,520 1180,510
+             C1380,500 1510,470 1610,450
+             L1610,520 Z"
+          fill="url(#layerMid)"
         />
+
+        <!-- ПЕРЕДНИЙ вал (нижняя “дуга”) -->
+        <path
+          d="M-10,520
+             C220,510 420,505 620,505
+             C880,505 1080,520 1300,520
+             C1480,520 1560,515 1610,510
+             L1610,520 Z"
+          fill="url(#layerFront)"
+        />
+
+        <!-- “Пирамида” слева (плоскости, как на скриншоте) -->
+        <polygon points="190,520 420,300 650,520" fill="url(#facetDark)" />
+        <polygon points="420,300 520,520 650,520" fill="url(#facet)" />
+        <polygon points="190,520 420,300 520,520" fill="url(#facet)" />
+
+        <!-- лёгкая диагональная плоскость у основания (как “луч/треугольник” на скрине) -->
+        <polygon points="0,520 290,520 520,360 300,520" fill="url(#facetDark)" opacity="0.9" />
       </svg>
 
       <div class="vignette"></div>
@@ -352,22 +369,11 @@
 
           <div class="chips">
             <div class="chip"><span>лат.:</span><strong>ser</strong></div>
-            <div class="chip"><span>рус.:</span><strong>сэр</strong></div>
+            <div class="chip"><span>рус.:</span><strong>сэ́р</strong></div>
           </div>
 
           <div class="meaning">Нежность · Любовь</div>
           <p class="desc">Это про тихое тепло, которое остаётся, когда рядом спокойно.</p>
-
-          <!-- Если хочешь кнопку голоса — оставь, и просто подключи файл в JS ниже -->
-          <!-- <button class="audio" id="playBtn" type="button">
-            <span class="icon" aria-hidden="true">▶</span>
-            <span>
-              послушать
-              <br />
-              <small>мой голос</small>
-            </span>
-          </button>
-          <audio id="voice" preload="none" src="audio/ser.mp3"></audio> -->
 
           <div class="hr"></div>
 
@@ -384,43 +390,11 @@
           <div class="hr"></div>
 
           <div class="footer">
-            <div>для тебя</div>
+            <div>для тебя🫶</div>
             <div>обновлю завтра - если захочешь</div>
           </div>
         </div>
       </section>
     </main>
-
-    <script>
-      // Ничего не автоматизируем. Только по клику, только по желанию.
-
-      // Если включишь аудио-кнопку выше, раскомментируй:
-      /*
-      const btn = document.getElementById("playBtn");
-      const audio = document.getElementById("voice");
-      let playing = false;
-
-      btn?.addEventListener("click", async () => {
-        if (!audio) return;
-
-        try {
-          if (!playing) {
-            await audio.play();
-            playing = true;
-          } else {
-            audio.pause();
-            audio.currentTime = 0;
-            playing = false;
-          }
-        } catch (_) {
-          // Молча: мобильные браузеры иногда блокируют, если не было явного жеста.
-        }
-      });
-
-      audio?.addEventListener("ended", () => {
-        playing = false;
-      });
-      */
-    </script>
   </body>
 </html>
