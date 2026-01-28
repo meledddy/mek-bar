@@ -17,30 +17,23 @@
         --bg0: #050710;
         --bg1: #0a1230;
 
-        --stroke: rgba(255, 255, 255, 0.1);
+        --stroke: rgba(255, 255, 255, 0.10);
         --stroke2: rgba(255, 255, 255, 0.08);
 
         --text: rgba(255, 255, 255, 0.92);
-        --muted: rgba(255, 255, 255, 0.6);
+        --muted: rgba(255, 255, 255, 0.60);
         --muted2: rgba(255, 255, 255, 0.46);
 
         --dot: #e8c36a;
       }
 
-      * {
-        box-sizing: border-box;
-      }
-      html,
-      body {
-        height: 100%;
-      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
 
       body {
         margin: 0;
         color: var(--text);
         font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-
-        /* как на скриншоте: мягкий тёплый/синий верх + тёмное основание */
         background:
           radial-gradient(1200px 700px at 70% 20%, rgba(40, 70, 160, 0.35), transparent 55%),
           radial-gradient(900px 600px at 25% 0%, rgba(170, 120, 60, 0.18), transparent 55%),
@@ -48,7 +41,7 @@
         overflow-x: hidden;
       }
 
-      /* ===== Background layer (NO background-image, no crop) ===== */
+      /* ===== Decorative background layer (NO mountains) ===== */
       .bg {
         position: fixed;
         inset: 0;
@@ -56,15 +49,15 @@
         pointer-events: none;
       }
 
-      /* очень дальний триколор (3–4 план): красный -> синий -> оранжевый */
+      /* very subtle hint of Armenian tricolor (3–4 plane) */
       .bg::before {
         content: "";
         position: absolute;
         inset: 0;
         background: linear-gradient(
           180deg,
-          rgba(162, 58, 58, 0.06) 0%,
-          rgba(38, 73, 140, 0.07) 45%,
+          rgba(162, 58, 58, 0.05) 0%,
+          rgba(38, 73, 140, 0.06) 45%,
           rgba(197, 128, 52, 0.05) 100%
         );
         opacity: 1;
@@ -81,17 +74,20 @@
         opacity: 0.85;
       }
 
-      /* SVG-ландшафт как на твоём скрине: слои + “пирамидка” слева */
-      .bg .mountains {
+      /* Pomegranate symbol */
+      .pomegranate {
         position: absolute;
-        left: 50%;
-        bottom: -2vh;
-        transform: translateX(-50%);
-        width: min(1600px, 140vw);
-        height: auto;
+        right: clamp(16px, 6vw, 72px);
+        bottom: clamp(18px, 6vh, 64px);
+        width: clamp(140px, 22vw, 240px);
+        opacity: 0.55;
+        filter: blur(0px);
+      }
 
-        /* общая “тихость” */
-        opacity: 0.28;
+      .pomegranate svg {
+        width: 100%;
+        height: auto;
+        display: block;
       }
 
       .bg .vignette {
@@ -117,7 +113,9 @@
         border-radius: 22px;
         background: linear-gradient(180deg, rgba(12, 18, 38, 0.62), rgba(8, 12, 24, 0.62));
         border: 1px solid var(--stroke);
-        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        box-shadow:
+          0 24px 80px rgba(0, 0, 0, 0.55),
+          inset 0 1px 0 rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(14px);
         -webkit-backdrop-filter: blur(14px);
         overflow: hidden;
@@ -138,10 +136,7 @@
         pointer-events: none;
       }
 
-      .card-inner {
-        position: relative;
-        padding: 18px 18px 14px 18px;
-      }
+      .card-inner { position: relative; padding: 18px 18px 14px 18px; }
 
       .topbar {
         display: flex;
@@ -166,7 +161,7 @@
         font-size: 12px;
         color: rgba(255, 255, 255, 0.78);
         background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.10);
         padding: 7px 10px;
         border-radius: 999px;
         user-select: none;
@@ -189,12 +184,7 @@
         margin: 6px 0 12px 0;
       }
 
-      .chips {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-        margin: 0 0 12px 0;
-      }
+      .chips { display: flex; gap: 10px; flex-wrap: wrap; margin: 0 0 12px 0; }
 
       .chip {
         display: inline-flex;
@@ -208,10 +198,7 @@
         font-size: 12px;
       }
 
-      .chip strong {
-        font-weight: 600;
-        color: rgba(255, 255, 255, 0.88);
-      }
+      .chip strong { font-weight: 600; color: rgba(255, 255, 255, 0.88); }
 
       .meaning {
         font-weight: 600;
@@ -237,16 +224,13 @@
 
       .note {
         margin: 0;
-        color: rgba(255, 255, 255, 0.4);
+        color: rgba(255, 255, 255, 0.40);
         font-size: 13px;
         line-height: 1.6;
       }
-      .note p {
-        margin: 0 0 10px 0;
-      }
-      .note p:last-child {
-        margin-bottom: 0;
-      }
+
+      .note p { margin: 0 0 10px 0; }
+      .note p:last-child { margin-bottom: 0; }
 
       .footer {
         display: flex;
@@ -259,18 +243,10 @@
       }
 
       @media (prefers-reduced-motion: no-preference) {
-        .card {
-          animation: cardIn 420ms ease-out both;
-        }
+        .card { animation: cardIn 420ms ease-out both; }
         @keyframes cardIn {
-          from {
-            opacity: 0;
-            transform: translateY(10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
         }
       }
     </style>
@@ -280,79 +256,77 @@
     <div class="bg" aria-hidden="true">
       <div class="glowline"></div>
 
-      <!-- ===== Демонстрация SVG + внедрение (вставлено в код) =====
-           Стили: мягкие градиенты/плоскости как на твоём скриншоте.
-           Это НЕ background-image => на телефоне не будет кропа. -->
-      <svg class="mountains" viewBox="0 0 1600 520" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <defs>
-          <!-- дальний слой -->
-          <linearGradient id="layerFar" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.10" />
-            <stop offset="100%" stop-color="#ffffff" stop-opacity="0.03" />
-          </linearGradient>
+      <!-- Armenian pomegranate symbol (minimal, quiet) -->
+      <div class="pomegranate" aria-hidden="true">
+        <svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="armFlagHint" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#b23a3a" stop-opacity="0.55" />
+              <stop offset="52%" stop-color="#2f5aa0" stop-opacity="0.55" />
+              <stop offset="100%" stop-color="#c48734" stop-opacity="0.55" />
+            </linearGradient>
 
-          <!-- средний слой -->
-          <linearGradient id="layerMid" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.14" />
-            <stop offset="100%" stop-color="#ffffff" stop-opacity="0.04" />
-          </linearGradient>
+            <radialGradient id="softGlow" cx="45%" cy="30%" r="75%">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.22" />
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+            </radialGradient>
+          </defs>
 
-          <!-- передний слой -->
-          <linearGradient id="layerFront" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.20" />
-            <stop offset="100%" stop-color="#ffffff" stop-opacity="0.06" />
-          </linearGradient>
+          <!-- Body -->
+          <path
+            d="M160 38
+               C150 54 138 62 124 66
+               C132 68 142 66 150 62
+               C150 78 132 92 114 98
+               C80 110 58 140 58 178
+               C58 240 104 282 160 282
+               C216 282 262 240 262 178
+               C262 140 240 110 206 98
+               C188 92 170 78 170 62
+               C178 66 188 68 196 66
+               C182 62 170 54 160 38 Z"
+            fill="url(#armFlagHint)"
+            opacity="0.18"
+          />
 
-          <!-- лёгкая “плоскостная” подсветка -->
-          <linearGradient id="facet" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.18" />
-            <stop offset="100%" stop-color="#ffffff" stop-opacity="0.05" />
-          </linearGradient>
+          <!-- Inner soft light -->
+          <path
+            d="M160 72
+               C126 86 104 116 104 156
+               C104 212 132 244 160 256
+               C188 244 216 212 216 156
+               C216 116 194 86 160 72 Z"
+            fill="url(#softGlow)"
+            opacity="0.30"
+          />
 
-          <linearGradient id="facetDark" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.10" />
-            <stop offset="100%" stop-color="#ffffff" stop-opacity="0.03" />
-          </linearGradient>
-        </defs>
+          <!-- Seeds hint -->
+          <circle cx="130" cy="170" r="10" fill="#ffffff" opacity="0.07" />
+          <circle cx="160" cy="154" r="11" fill="#ffffff" opacity="0.06" />
+          <circle cx="190" cy="174" r="10" fill="#ffffff" opacity="0.07" />
+          <circle cx="150" cy="198" r="9" fill="#ffffff" opacity="0.06" />
+          <circle cx="176" cy="206" r="9" fill="#ffffff" opacity="0.06" />
 
-        <!-- ДАЛЬНИЙ вал (самый мягкий, почти воздух) -->
-        <path
-          d="M-10,520
-             C140,450 360,420 560,420
-             C780,420 980,470 1200,470
-             C1400,470 1520,430 1610,380
-             L1610,520 Z"
-          fill="url(#layerFar)"
-        />
-
-        <!-- СРЕДНИЙ вал (как на скрине справа — большой мягкий подъём) -->
-        <path
-          d="M-10,520
-             C180,490 380,470 600,470
-             C820,470 980,520 1180,510
-             C1380,500 1510,470 1610,450
-             L1610,520 Z"
-          fill="url(#layerMid)"
-        />
-
-        <!-- ПЕРЕДНИЙ вал (нижняя “дуга”) -->
-        <path
-          d="M-10,520
-             C220,510 420,505 620,505
-             C880,505 1080,520 1300,520
-             C1480,520 1560,515 1610,510
-             L1610,520 Z"
-          fill="url(#layerFront)"
-        />
-
-        <!-- “Пирамида” слева (плоскости, как на скриншоте) -->
-        <polygon points="190,520 420,300 650,520" fill="url(#facetDark)" />
-        <polygon points="420,300 520,520 650,520" fill="url(#facet)" />
-        <polygon points="190,520 420,300 520,520" fill="url(#facet)" />
-
-        <!-- лёгкая диагональная плоскость у основания (как “луч/треугольник” на скрине) -->
-        <polygon points="0,520 290,520 520,360 300,520" fill="url(#facetDark)" opacity="0.9" />
-      </svg>
+          <!-- Stroke -->
+          <path
+            d="M160 38
+               C150 54 138 62 124 66
+               C132 68 142 66 150 62
+               C150 78 132 92 114 98
+               C80 110 58 140 58 178
+               C58 240 104 282 160 282
+               C216 282 262 240 262 178
+               C262 140 240 110 206 98
+               C188 92 170 78 170 62
+               C178 66 188 68 196 66
+               C182 62 170 54 160 38 Z"
+            fill="none"
+            stroke="#ffffff"
+            stroke-opacity="0.08"
+            stroke-width="2"
+          />
+        </svg>
+      </div>
 
       <div class="vignette"></div>
     </div>
@@ -369,7 +343,7 @@
 
           <div class="chips">
             <div class="chip"><span>лат.:</span><strong>ser</strong></div>
-            <div class="chip"><span>рус.:</span><strong>сэ́р</strong></div>
+            <div class="chip"><span>рус.:</span><strong>сэр</strong></div>
           </div>
 
           <div class="meaning">Нежность · Любовь</div>
@@ -390,7 +364,7 @@
           <div class="hr"></div>
 
           <div class="footer">
-            <div>для тебя🫶</div>
+            <div>для тебя</div>
             <div>обновлю завтра - если захочешь</div>
           </div>
         </div>
