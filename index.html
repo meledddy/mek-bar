@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Մեկ բառ / Одно слово</title>
 
-    <!-- Fonts: Armenian + Cyrillic (safe, clean) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,31 +16,23 @@
       :root {
         --bg0: #050710;
         --bg1: #0a1230;
-        --card: rgba(11, 16, 34, 0.62);
-        --card-strong: rgba(11, 16, 34, 0.74);
         --stroke: rgba(255, 255, 255, 0.10);
         --stroke2: rgba(255, 255, 255, 0.08);
         --text: rgba(255, 255, 255, 0.92);
         --muted: rgba(255, 255, 255, 0.60);
         --muted2: rgba(255, 255, 255, 0.46);
-        --soft: rgba(255, 255, 255, 0.12);
         --dot: #e8c36a;
       }
 
-      * {
-        box-sizing: border-box;
-      }
-
-      html,
-      body {
-        height: 100%;
-      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
 
       body {
         margin: 0;
         color: var(--text);
         font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-        background: radial-gradient(1200px 700px at 70% 20%, rgba(40, 70, 160, 0.35), transparent 55%),
+        background:
+          radial-gradient(1200px 700px at 70% 20%, rgba(40, 70, 160, 0.35), transparent 55%),
           radial-gradient(900px 600px at 25% 0%, rgba(170, 120, 60, 0.18), transparent 55%),
           linear-gradient(180deg, var(--bg0), var(--bg1));
         overflow-x: hidden;
@@ -55,24 +46,6 @@
         pointer-events: none;
       }
 
-      .bg .vignette {
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(1200px 900px at 50% 30%, transparent 35%, rgba(0, 0, 0, 0.55) 90%);
-        opacity: 0.9;
-      }
-
-      .bg .mountains {
-        position: absolute;
-        left: 50%;
-        bottom: -2vh;
-        transform: translateX(-50%);
-        width: min(1400px, 130vw);
-        height: auto;
-        opacity: 0.26;
-        filter: blur(0px);
-      }
-
       .bg .glowline {
         position: absolute;
         left: 50%;
@@ -81,7 +54,25 @@
         width: min(1200px, 140vw);
         height: 60vh;
         background: radial-gradient(closest-side, rgba(120, 160, 255, 0.16), transparent 70%);
-        opacity: 0.8;
+        opacity: 0.85;
+      }
+
+      /* Сдвиг вправо (ближе к "реальному" ощущению вида), стабильный на мобильных */
+      .bg .mountains {
+        position: absolute;
+        left: 52%;
+        bottom: -2vh;
+        transform: translateX(-50%);
+        width: min(1400px, 130vw);
+        height: auto;
+        opacity: 0.24;
+      }
+
+      .bg .vignette {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(1200px 900px at 50% 30%, transparent 35%, rgba(0, 0, 0, 0.55) 90%);
+        opacity: 0.9;
       }
 
       /* Layout */
@@ -95,6 +86,7 @@
       }
 
       .card {
+        position: relative;
         width: min(560px, 92vw);
         border-radius: 22px;
         background: linear-gradient(180deg, rgba(12, 18, 38, 0.62), rgba(8, 12, 24, 0.62));
@@ -226,13 +218,8 @@
         line-height: 1.6;
       }
 
-      .note p {
-        margin: 0 0 10px 0;
-      }
-
-      .note p:last-child {
-        margin-bottom: 0;
-      }
+      .note p { margin: 0 0 10px 0; }
+      .note p:last-child { margin-bottom: 0; }
 
       .footer {
         display: flex;
@@ -244,7 +231,7 @@
         font-size: 12px;
       }
 
-      /* Optional: audio button (если добавишь позже) */
+      /* Optional: audio button (если включишь) */
       .audio {
         margin-top: 12px;
         display: inline-flex;
@@ -260,9 +247,7 @@
         user-select: none;
       }
 
-      .audio:active {
-        transform: translateY(1px);
-      }
+      .audio:active { transform: translateY(1px); }
 
       .audio .icon {
         width: 28px;
@@ -279,76 +264,68 @@
         font-size: 12px;
       }
 
-      /* Subtle entrance */
       @media (prefers-reduced-motion: no-preference) {
-        .card {
-          animation: cardIn 420ms ease-out both;
-        }
+        .card { animation: cardIn 420ms ease-out both; }
         @keyframes cardIn {
-          from {
-            opacity: 0;
-            transform: translateY(10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
         }
       }
     </style>
   </head>
 
   <body>
-    <!-- Decorative background (Variant 1) -->
     <div class="bg" aria-hidden="true">
       <div class="glowline"></div>
 
-      <!-- SVG гора/пейзаж: можно заменить на свой PNG/SVG, но этот уже работает -->
+      <!-- Арарат: маленький слева, большой справа + очень мягкая снежная шапка -->
       <svg class="mountains" viewBox="0 0 1600 520" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <defs>
-    <linearGradient id="araratMain" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="white" stop-opacity="0.20"></stop>
-      <stop offset="1" stop-color="white" stop-opacity="0.04"></stop>
-    </linearGradient>
-    <linearGradient id="araratSmall" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="white" stop-opacity="0.16"></stop>
-      <stop offset="1" stop-color="white" stop-opacity="0.03"></stop>
-    </linearGradient>
-  </defs>
+        <defs>
+          <linearGradient id="araratMain" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="white" stop-opacity="0.22" />
+            <stop offset="1" stop-color="white" stop-opacity="0.04" />
+          </linearGradient>
+          <linearGradient id="araratSmall" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="white" stop-opacity="0.17" />
+            <stop offset="1" stop-color="white" stop-opacity="0.03" />
+          </linearGradient>
+        </defs>
 
-  <!-- ground -->
-  <path d="M-10,520 C200,460 420,440 640,450 C860,460 1080,500 1300,480 C1460,465 1560,440 1610,420 L1610,520 Z" fill="white" fill-opacity="0.06"></path>
-
-  <!-- Малый Арарат (слева) -->
-  <path d="M520,520 L720,360 L900,520 Z" fill="url(#araratSmall)"></path>
-  <path d="M720,360 L800,520 L900,520 Z" fill="white" fill-opacity="0.05"></path>
-
-  <!-- Большой Арарат (справа, выше) -->
-  <path d="M860,520 L1120,260 L1380,520 Z" fill="url(#araratMain)"></path>
-  <path d="M1120,260 L1240,520 L1380,520 Z" fill="white" fill-opacity="0.06"></path>
-
-  <!-- мягкий передний хребет -->
-  <path d="M-10,520 C260,500 480,490 700,500 C920,510 1120,520 1360,505 C1500,495 1580,480 1610,470 L1610,520 Z" fill="white" fill-opacity="0.04"></path>
-</svg>
-
-        <!-- ground -->
+        <!-- ground (широкая «платформа») -->
         <path
-          d="M-10,520 C120,420 300,380 520,380 C760,380 940,460 1160,460 C1370,460 1500,410 1610,360 L1610,520 Z"
-          fill="url(#g0)"
+          d="M-10,520 C210,460 430,440 650,450 C870,460 1090,500 1310,480 C1465,466 1560,442 1610,420 L1610,520 Z"
+          fill="white"
+          fill-opacity="0.055"
         />
 
-        <!-- left pyramid -->
-        <path d="M220,520 L520,240 L840,520 Z" fill="white" fill-opacity="0.10" />
-        <path d="M520,240 L670,520 L840,520 Z" fill="white" fill-opacity="0.06" />
+        <!-- Малый Арарат (слева) -->
+        <path d="M520,520 L720,360 L900,520 Z" fill="url(#araratSmall)" />
+        <path d="M720,360 L800,520 L900,520 Z" fill="white" fill-opacity="0.048" />
 
-        <!-- ararat silhouette -->
-        <path d="M780,520 L980,330 L1210,520 Z" fill="white" fill-opacity="0.08" />
-        <path d="M980,330 L1090,520 L1210,520 Z" fill="white" fill-opacity="0.05" />
+        <!-- Большой Арарат (справа, выше) -->
+        <path d="M860,520 L1120,260 L1380,520 Z" fill="url(#araratMain)" />
+        <path d="M1120,260 L1240,520 L1380,520 Z" fill="white" fill-opacity="0.058" />
 
-        <!-- soft ridge -->
+        <!-- Снежная шапка (очень тихо, без «рисованности») -->
         <path
-          d="M-10,520 C180,470 350,450 520,450 C700,450 880,500 1080,500 C1280,500 1440,460 1610,430 L1610,520 Z"
-          fill="url(#g1)"
+          d="M1088,300 C1102,292 1114,286 1120,280 C1126,286 1138,292 1152,300
+             C1142,306 1130,312 1120,320 C1110,312 1098,306 1088,300 Z"
+          fill="white"
+          fill-opacity="0.055"
+        />
+        <path
+          d="M1106,315 C1112,312 1117,309 1120,306 C1123,309 1128,312 1134,315
+             C1129,319 1124,323 1120,327 C1116,323 1111,319 1106,315 Z"
+          fill="white"
+          fill-opacity="0.035"
+        />
+
+        <!-- мягкий передний хребет -->
+        <path
+          d="M-10,520 C270,500 490,490 710,500 C930,510 1125,520 1365,505
+             C1505,495 1582,480 1610,470 L1610,520 Z"
+          fill="white"
+          fill-opacity="0.038"
         />
       </svg>
 
@@ -373,16 +350,17 @@
           <div class="meaning">Нежность · Любовь</div>
           <p class="desc">Это про тихое тепло, которое остаётся, когда рядом спокойно.</p>
 
-          <!-- Если хочешь кнопку голоса — оставь, и просто подключи файл в JS ниже -->
-          <!-- <button class="audio" id="playBtn" type="button">
+          <!-- Включи, если добавляешь mp3 -->
+          <!--
+          <button class="audio" id="playBtn" type="button">
             <span class="icon" aria-hidden="true">▶</span>
             <span>
-              послушать
-              <br />
+              послушать<br />
               <small>мой голос</small>
             </span>
           </button>
-          <audio id="voice" preload="none" src="audio/ser.mp3"></audio> -->
+          <audio id="voice" preload="none" src="audio/ser.mp3"></audio>
+          -->
 
           <div class="hr"></div>
 
@@ -409,7 +387,7 @@
     <script>
       // Ничего не автоматизируем. Только по клику, только по желанию.
 
-      // Если включишь аудио-кнопку выше, раскомментируй:
+      // Если включишь аудио-блок выше, раскомментируй:
       /*
       const btn = document.getElementById("playBtn");
       const audio = document.getElementById("voice");
@@ -417,7 +395,6 @@
 
       btn?.addEventListener("click", async () => {
         if (!audio) return;
-
         try {
           if (!playing) {
             await audio.play();
@@ -427,9 +404,7 @@
             audio.currentTime = 0;
             playing = false;
           }
-        } catch (_) {
-          // Молча: мобильные браузеры иногда блокируют, если не было явного жеста.
-        }
+        } catch (_) {}
       });
 
       audio?.addEventListener("ended", () => {
@@ -439,4 +414,3 @@
     </script>
   </body>
 </html>
-  
