@@ -2,57 +2,271 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>Одно слово</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Մեկ բառ</title>
+  <meta name="description" content="Одно слово в день." />
+
   <style>
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #f6f4f1;
-      color: #1e1e1e;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+    :root{
+      --bg1:#0b0f17;
+      --bg2:#141a2a;
+      --card:#0f1524cc;
+      --stroke:#ffffff22;
+      --text:#f3f5ff;
+      --muted:#c8cde3cc;
+      --muted2:#c8cde388;
+      --accent:#ffd37a;
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --radius: 22px;
     }
-    .card {
-      max-width: 420px;
-      padding: 32px;
-      background: #ffffff;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      text-align: center;
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 700px at 15% 10%, rgba(255,211,122,.22), transparent 55%),
+        radial-gradient(900px 600px at 85% 25%, rgba(128,173,255,.20), transparent 55%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+      overflow:hidden;
     }
-    .word {
-      font-size: 36px;
-      letter-spacing: 0.05em;
-      margin-bottom: 8px;
+
+    /* Фон с Араратом */
+    .bg{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:0;
+      animation:bgFade 900ms ease forwards;
     }
-    .transcription {
-      font-size: 14px;
-      opacity: 0.6;
-      margin-bottom: 16px;
+
+    .bg svg{
+      position:absolute;
+      bottom:0;
+      width:100%;
+      height:min(62vh,520px);
+      filter: drop-shadow(0 18px 40px rgba(0,0,0,.35));
+      transform: translateY(18px);
+      animation:mountRise 1200ms cubic-bezier(.2,.9,.2,1) 120ms forwards;
     }
-    .meaning {
-      font-size: 16px;
-      margin-bottom: 24px;
+
+    /* Лёгкое зерно */
+    .grain{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.06;
+      mix-blend-mode: overlay;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+      background-size:240px 240px;
+      animation:grainMove 7s ease-in-out infinite alternate;
     }
-    .note {
-      font-size: 15px;
-      line-height: 1.5;
-      opacity: 0.85;
+
+    .wrap{
+      height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:22px;
+      position:relative;
+    }
+
+    .card{
+      width:min(520px,92vw);
+      background:var(--card);
+      border:1px solid var(--stroke);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      backdrop-filter: blur(10px);
+      padding:28px 26px 24px;
+      transform: translateY(16px);
+      opacity:0;
+      animation:cardIn 720ms cubic-bezier(.2,.9,.2,1) 120ms forwards;
+    }
+
+    .topline{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:10px;
+      opacity:0;
+      transform: translateY(8px);
+      animation:fadeUp 520ms ease 260ms forwards;
+    }
+
+    .brand{
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      font-size:14px;
+      color:var(--muted2);
+    }
+
+    .badge{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size:13px;
+      color:var(--muted);
+      border:1px solid var(--stroke);
+      padding:8px 10px;
+      border-radius:999px;
+    }
+
+    .dot{
+      width:7px;height:7px;border-radius:50%;
+      background:var(--accent);
+      box-shadow:0 0 14px rgba(255,211,122,.6);
+    }
+
+    .word{
+      font-size:46px;
+      margin:6px 0;
+      opacity:0;
+      transform: translateY(10px);
+      animation:fadeUp 520ms ease 330ms forwards;
+    }
+
+    .pron{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom:14px;
+      opacity:0;
+      transform: translateY(10px);
+      animation:fadeUp 520ms ease 390ms forwards;
+    }
+
+    .pron span{
+      border:1px solid var(--stroke);
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:14px;
+      color:var(--muted);
+    }
+
+    .meaning{
+      font-size:16px;
+      margin-bottom:16px;
+      opacity:0;
+      transform: translateY(10px);
+      animation:fadeUp 520ms ease 450ms forwards;
+    }
+
+    .note{
+      font-size:15px;
+      line-height:1.6;
+      color:var(--muted);
+      margin-bottom:16px;
+      opacity:0;
+      transform: translateY(10px);
+      animation:fadeUp 520ms ease 520ms forwards;
+    }
+
+    /* Блок объяснения — только первый день */
+    .about{
+      margin-top:18px;
+      padding-top:16px;
+      border-top:1px dashed var(--stroke);
+      font-size:14px;
+      line-height:1.6;
+      color:var(--muted2);
+      opacity:0;
+      transform: translateY(10px);
+      animation:fadeUp 520ms ease 640ms forwards;
+    }
+
+    .footer{
+      margin-top:18px;
+      padding-top:14px;
+      border-top:1px solid var(--stroke);
+      font-size:13px;
+      color:var(--muted2);
+      display:flex;
+      justify-content:space-between;
+      opacity:0;
+      transform: translateY(10px);
+      animation:fadeUp 520ms ease 720ms forwards;
+    }
+
+    @keyframes cardIn{to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+    @keyframes bgFade{to{opacity:1}}
+    @keyframes mountRise{to{transform:translateY(0)}}
+    @keyframes grainMove{
+      from{transform:translate(-2%,-1%)}
+      to{transform:translate(2%,1%)}
+    }
+
+    @media (max-width:420px){
+      .card{padding:24px 18px}
+      .word{font-size:40px}
     }
   </style>
 </head>
+
 <body>
-  <div class="card">
-    <div class="word">ՍԵՐ</div>
-    <div class="transcription">ser</div>
-    <div class="meaning">Любовь</div>
-    <div class="note">
-      Это тихое тепло, которое остаётся,<br/>
-      когда рядом спокойно.
-    </div>
+  <!-- Фон -->
+  <div class="bg">
+    <svg viewBox="0 0 1440 520" preserveAspectRatio="xMidYMax slice">
+      <defs>
+        <linearGradient id="m1" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stop-color="#ffffff" stop-opacity="0.10"/>
+          <stop offset="1" stop-color="#ffffff" stop-opacity="0.02"/>
+        </linearGradient>
+        <linearGradient id="m2" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stop-color="#ffd37a" stop-opacity="0.14"/>
+          <stop offset="1" stop-color="#ffd37a" stop-opacity="0.03"/>
+        </linearGradient>
+      </defs>
+      <path d="M0,420 C180,360 320,340 520,360 C660,374 780,330 900,300 C1010,272 1120,284 1240,330 C1320,360 1380,380 1440,400 L1440,520 L0,520 Z" fill="url(#m1)"/>
+      <path d="M220,520 L520,260 L640,320 L760,180 L920,270 L1040,220 L1220,520 Z" fill="url(#m2)"/>
+    </svg>
   </div>
+
+  <div class="grain"></div>
+
+  <main class="wrap">
+    <section class="card">
+      <div class="topline">
+        <div class="brand">ՄԵԿ ԲԱՌ</div>
+        <div class="badge"><span class="dot"></span> одно слово в день</div>
+      </div>
+
+      <h1 class="word">ՍԵՐ</h1>
+
+      <div class="pron">
+        <span>лат.: <strong>ser</strong></span>
+        <span>рус.: <strong>сéр</strong></span>
+      </div>
+
+      <p class="meaning">Тепло · Нежность · Любовь</p>
+
+      <p class="note">
+        Это слово не про громкие вещи.<br/>
+        Оно про тихое тепло, которое остаётся,<br/>
+        когда рядом спокойно.
+      </p>
+
+      <!-- ОБЪЯСНЕНИЕ — УДАЛИТЬ ПОСЛЕ ПЕРВОГО ДНЯ -->
+      <p class="about">
+        Это маленькое место для одного слова.<br/>
+        Не урок и не задача — просто пауза в дне.<br/><br/>
+        Иногда здесь будет слово, иногда — ощущение.<br/>
+        Ты можешь заходить, когда захочешь,<br/>
+        или не заходить вовсе — оно всё равно здесь.<br/><br/>
+        Пусть это будет тихим ритуалом.<br/>
+        Без ожиданий. Без спешки.
+      </p>
+
+      <div class="footer">
+        <div>для тебя</div>
+        <div>обновлю завтра · если захочешь</div>
+      </div>
+    </section>
+  </main>
 </body>
 </html>
