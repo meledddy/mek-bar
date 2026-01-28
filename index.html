@@ -38,7 +38,7 @@
         overflow-x: hidden;
       }
 
-      /* Variant 1: гора НЕ фон, а отдельный декоративный слой */
+      /* Декоративный фон-слой (не background-image) */
       .bg {
         position: fixed;
         inset: 0;
@@ -57,7 +57,7 @@
         opacity: 0.85;
       }
 
-      /* Сдвиг вправо (ближе к "реальному" ощущению вида), стабильный на мобильных */
+      /* ВАЖНО: img, а не background — так не будет кропа на мобиле */
       .bg .mountains {
         position: absolute;
         left: 52%;
@@ -65,7 +65,14 @@
         transform: translateX(-50%);
         width: min(1400px, 130vw);
         height: auto;
-        opacity: 0.24;
+
+        /* подстройка под твою картинку */
+        opacity: 0.22;
+        filter: blur(0px);
+
+        /* Если фон у PNG чёрный, это поможет мягче "вписать" в общий фон.
+           Если PNG станет прозрачным — можно удалить. */
+        mix-blend-mode: screen;
       }
 
       .bg .vignette {
@@ -75,7 +82,6 @@
         opacity: 0.9;
       }
 
-      /* Layout */
       .wrap {
         position: relative;
         z-index: 1;
@@ -114,10 +120,7 @@
         pointer-events: none;
       }
 
-      .card-inner {
-        position: relative;
-        padding: 18px 18px 14px 18px;
-      }
+      .card-inner { position: relative; padding: 18px 18px 14px 18px; }
 
       .topbar {
         display: flex;
@@ -165,12 +168,7 @@
         margin: 6px 0 12px 0;
       }
 
-      .chips {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-        margin: 0 0 12px 0;
-      }
+      .chips { display: flex; gap: 10px; flex-wrap: wrap; margin: 0 0 12px 0; }
 
       .chip {
         display: inline-flex;
@@ -184,24 +182,10 @@
         font-size: 12px;
       }
 
-      .chip strong {
-        font-weight: 600;
-        color: rgba(255, 255, 255, 0.88);
-      }
+      .chip strong { font-weight: 600; color: rgba(255, 255, 255, 0.88); }
 
-      .meaning {
-        font-weight: 600;
-        font-size: 16px;
-        margin: 10px 0 10px 0;
-        color: rgba(255, 255, 255, 0.88);
-      }
-
-      .desc {
-        margin: 0 0 12px 0;
-        color: var(--muted);
-        font-size: 14px;
-        line-height: 1.55;
-      }
+      .meaning { font-weight: 600; font-size: 16px; margin: 10px 0; color: rgba(255, 255, 255, 0.88); }
+      .desc { margin: 0 0 12px 0; color: var(--muted); font-size: 14px; line-height: 1.55; }
 
       .hr {
         height: 1px;
@@ -211,13 +195,7 @@
         opacity: 0.7;
       }
 
-      .note {
-        margin: 0;
-        color: rgba(255, 255, 255, 0.40);
-        font-size: 13px;
-        line-height: 1.6;
-      }
-
+      .note { margin: 0; color: rgba(255, 255, 255, 0.40); font-size: 13px; line-height: 1.6; }
       .note p { margin: 0 0 10px 0; }
       .note p:last-child { margin-bottom: 0; }
 
@@ -228,39 +206,6 @@
         gap: 10px;
         padding-top: 12px;
         color: rgba(255, 255, 255, 0.38);
-        font-size: 12px;
-      }
-
-      /* Optional: audio button (если включишь) */
-      .audio {
-        margin-top: 12px;
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        border-radius: 12px;
-        padding: 10px 12px;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.10);
-        color: rgba(255, 255, 255, 0.80);
-        font-size: 13px;
-        cursor: pointer;
-        user-select: none;
-      }
-
-      .audio:active { transform: translateY(1px); }
-
-      .audio .icon {
-        width: 28px;
-        height: 28px;
-        border-radius: 999px;
-        display: grid;
-        place-items: center;
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(255, 255, 255, 0.10);
-      }
-
-      .audio small {
-        color: rgba(255, 255, 255, 0.55);
         font-size: 12px;
       }
 
@@ -278,56 +223,8 @@
     <div class="bg" aria-hidden="true">
       <div class="glowline"></div>
 
-      <!-- Арарат: маленький слева, большой справа + очень мягкая снежная шапка -->
-      <svg class="mountains" viewBox="0 0 1600 520" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <defs>
-          <linearGradient id="araratMain" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="white" stop-opacity="0.22" />
-            <stop offset="1" stop-color="white" stop-opacity="0.04" />
-          </linearGradient>
-          <linearGradient id="araratSmall" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="white" stop-opacity="0.17" />
-            <stop offset="1" stop-color="white" stop-opacity="0.03" />
-          </linearGradient>
-        </defs>
-
-        <!-- ground (широкая «платформа») -->
-        <path
-          d="M-10,520 C210,460 430,440 650,450 C870,460 1090,500 1310,480 C1465,466 1560,442 1610,420 L1610,520 Z"
-          fill="white"
-          fill-opacity="0.055"
-        />
-
-        <!-- Малый Арарат (слева) -->
-        <path d="M520,520 L720,360 L900,520 Z" fill="url(#araratSmall)" />
-        <path d="M720,360 L800,520 L900,520 Z" fill="white" fill-opacity="0.048" />
-
-        <!-- Большой Арарат (справа, выше) -->
-        <path d="M860,520 L1120,260 L1380,520 Z" fill="url(#araratMain)" />
-        <path d="M1120,260 L1240,520 L1380,520 Z" fill="white" fill-opacity="0.058" />
-
-        <!-- Снежная шапка (очень тихо, без «рисованности») -->
-        <path
-          d="M1088,300 C1102,292 1114,286 1120,280 C1126,286 1138,292 1152,300
-             C1142,306 1130,312 1120,320 C1110,312 1098,306 1088,300 Z"
-          fill="white"
-          fill-opacity="0.055"
-        />
-        <path
-          d="M1106,315 C1112,312 1117,309 1120,306 C1123,309 1128,312 1134,315
-             C1129,319 1124,323 1120,327 C1116,323 1111,319 1106,315 Z"
-          fill="white"
-          fill-opacity="0.035"
-        />
-
-        <!-- мягкий передний хребет -->
-        <path
-          d="M-10,520 C270,500 490,490 710,500 C930,510 1125,520 1365,505
-             C1505,495 1582,480 1610,470 L1610,520 Z"
-          fill="white"
-          fill-opacity="0.038"
-        />
-      </svg>
+      <!-- ВСТАВКА ТВОЕЙ КАРТИНКИ -->
+      <img class="mountains" src="img/ararat.png" alt="" />
 
       <div class="vignette"></div>
     </div>
@@ -350,18 +247,6 @@
           <div class="meaning">Нежность · Любовь</div>
           <p class="desc">Это про тихое тепло, которое остаётся, когда рядом спокойно.</p>
 
-          <!-- Включи, если добавляешь mp3 -->
-          <!--
-          <button class="audio" id="playBtn" type="button">
-            <span class="icon" aria-hidden="true">▶</span>
-            <span>
-              послушать<br />
-              <small>мой голос</small>
-            </span>
-          </button>
-          <audio id="voice" preload="none" src="audio/ser.mp3"></audio>
-          -->
-
           <div class="hr"></div>
 
           <div class="note">
@@ -383,34 +268,5 @@
         </div>
       </section>
     </main>
-
-    <script>
-      // Ничего не автоматизируем. Только по клику, только по желанию.
-
-      // Если включишь аудио-блок выше, раскомментируй:
-      /*
-      const btn = document.getElementById("playBtn");
-      const audio = document.getElementById("voice");
-      let playing = false;
-
-      btn?.addEventListener("click", async () => {
-        if (!audio) return;
-        try {
-          if (!playing) {
-            await audio.play();
-            playing = true;
-          } else {
-            audio.pause();
-            audio.currentTime = 0;
-            playing = false;
-          }
-        } catch (_) {}
-      });
-
-      audio?.addEventListener("ended", () => {
-        playing = false;
-      });
-      */
-    </script>
   </body>
 </html>
