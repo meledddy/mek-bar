@@ -8,16 +8,16 @@
 
   <style>
     :root{
-      --bg1:#0b0f17;
+      --bg1:#0a0e16;
       --bg2:#141a2a;
-      --card:#0f1524cc;
-      --stroke:#ffffff22;
+      --card:#0f1524dd;
+      --stroke:#ffffff26;
       --text:#f3f5ff;
       --muted:#c8cde3cc;
       --muted2:#c8cde388;
-      --accent:#ffd37a;
-      --shadow: 0 18px 60px rgba(0,0,0,.45);
-      --radius: 22px;
+      --accent:#d9b36a;
+      --shadow:0 18px 60px rgba(0,0,0,.45);
+      --radius:22px;
     }
 
     *{box-sizing:border-box}
@@ -28,8 +28,8 @@
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color:var(--text);
       background:
-        radial-gradient(1200px 700px at 15% 10%, rgba(255,211,122,.22), transparent 55%),
-        radial-gradient(900px 600px at 85% 25%, rgba(128,173,255,.20), transparent 55%),
+        radial-gradient(1100px 700px at 20% 10%, rgba(217,179,106,.22), transparent 55%),
+        radial-gradient(900px 600px at 80% 20%, rgba(120,160,255,.18), transparent 55%),
         linear-gradient(180deg, var(--bg1), var(--bg2));
       overflow:hidden;
     }
@@ -47,13 +47,13 @@
       position:absolute;
       bottom:0;
       width:100%;
-      height:min(62vh,520px);
-      filter: drop-shadow(0 18px 40px rgba(0,0,0,.35));
-      transform: translateY(18px);
+      height:min(65vh,560px);
+      filter: drop-shadow(0 18px 40px rgba(0,0,0,.45));
+      transform: translateY(22px);
       animation:mountRise 1200ms cubic-bezier(.2,.9,.2,1) 120ms forwards;
     }
 
-    /* Лёгкое зерно */
+    /* Зерно */
     .grain{
       position:fixed;
       inset:0;
@@ -83,9 +83,34 @@
       box-shadow:var(--shadow);
       backdrop-filter: blur(10px);
       padding:28px 26px 24px;
+      position:relative;
+      overflow:hidden;
       transform: translateY(16px);
       opacity:0;
       animation:cardIn 720ms cubic-bezier(.2,.9,.2,1) 120ms forwards;
+    }
+
+    /* Армянский орнамент */
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:inherit;
+      pointer-events:none;
+      background:
+        repeating-linear-gradient(
+          45deg,
+          transparent 0 10px,
+          rgba(217,179,106,.12) 10px 12px,
+          transparent 12px 22px
+        );
+      mask:
+        linear-gradient(#000,#000) content-box,
+        linear-gradient(#000,#000);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      padding:14px;
+      opacity:.25;
     }
 
     .topline{
@@ -99,7 +124,7 @@
     }
 
     .brand{
-      letter-spacing:.08em;
+      letter-spacing:.12em;
       text-transform:uppercase;
       font-size:14px;
       color:var(--muted2);
@@ -119,7 +144,7 @@
     .dot{
       width:7px;height:7px;border-radius:50%;
       background:var(--accent);
-      box-shadow:0 0 14px rgba(255,211,122,.6);
+      box-shadow:0 0 14px rgba(217,179,106,.6);
     }
 
     .word{
@@ -166,7 +191,6 @@
       animation:fadeUp 520ms ease 520ms forwards;
     }
 
-    /* Блок объяснения — только первый день */
     .about{
       margin-top:18px;
       padding-top:16px;
@@ -209,21 +233,31 @@
 </head>
 
 <body>
-  <!-- Фон -->
+  <!-- Фон с узнаваемым Араратом -->
   <div class="bg">
-    <svg viewBox="0 0 1440 520" preserveAspectRatio="xMidYMax slice">
+    <svg viewBox="0 0 1440 560" preserveAspectRatio="xMidYMax slice">
       <defs>
-        <linearGradient id="m1" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stop-color="#ffffff" stop-opacity="0.10"/>
-          <stop offset="1" stop-color="#ffffff" stop-opacity="0.02"/>
+        <linearGradient id="mountBase" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stop-color="#ffffff" stop-opacity="0.16"/>
+          <stop offset="1" stop-color="#ffffff" stop-opacity="0.04"/>
         </linearGradient>
-        <linearGradient id="m2" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stop-color="#ffd37a" stop-opacity="0.14"/>
-          <stop offset="1" stop-color="#ffd37a" stop-opacity="0.03"/>
+        <linearGradient id="snow" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stop-color="#ffffff" stop-opacity="0.5"/>
+          <stop offset="1" stop-color="#ffffff" stop-opacity="0.15"/>
         </linearGradient>
       </defs>
-      <path d="M0,420 C180,360 320,340 520,360 C660,374 780,330 900,300 C1010,272 1120,284 1240,330 C1320,360 1380,380 1440,400 L1440,520 L0,520 Z" fill="url(#m1)"/>
-      <path d="M220,520 L520,260 L640,320 L760,180 L920,270 L1040,220 L1220,520 Z" fill="url(#m2)"/>
+
+      <!-- дальние холмы -->
+      <path d="M0,420 C200,360 360,350 560,370 C720,386 860,340 1040,330 C1180,322 1320,360 1440,400 L1440,560 L0,560 Z"
+            fill="url(#mountBase)"/>
+
+      <!-- Большой Арарат -->
+      <path d="M380,560 L720,220 L1060,560 Z" fill="url(#mountBase)"/>
+      <path d="M660,300 L720,220 L780,300 Z" fill="url(#snow)"/>
+
+      <!-- Малый Арарат -->
+      <path d="M240,560 L470,330 L650,560 Z" fill="url(#mountBase)"/>
+      <path d="M430,380 L470,330 L510,380 Z" fill="url(#snow)"/>
     </svg>
   </div>
 
@@ -240,26 +274,22 @@
 
       <div class="pron">
         <span>лат.: <strong>ser</strong></span>
-        <span>рус.: <strong>сéр</strong></span>
+        <span>рус.: <strong>сэ́р</strong></span>
       </div>
 
-      <p class="meaning">Тепло · Нежность · Любовь</p>
+      <p class="meaning">Нежность · Любовь</p>
 
       <p class="note">
-        Это слово не про громкие вещи.<br/>
-        Оно про тихое тепло, которое остаётся,<br/>
+        Это про тихое тепло, которое остаётся,<br/>
         когда рядом спокойно.
       </p>
 
-      <!-- ОБЪЯСНЕНИЕ — УДАЛИТЬ ПОСЛЕ ПЕРВОГО ДНЯ -->
       <p class="about">
         Это маленькое место для одного слова.<br/>
-        Не урок и не задача — просто пауза в дне.<br/><br/>
-        Иногда здесь будет слово, иногда — ощущение.<br/>
+        Иногда здесь будет слово, иногда - что-то ещё<br/>
         Ты можешь заходить, когда захочешь,<br/>
-        или не заходить вовсе — оно всё равно здесь.<br/><br/>
-        Пусть это будет тихим ритуалом.<br/>
-        Без ожиданий. Без спешки.
+        или не заходить вовсе - оно всегда здесь.<br/><br/>
+        Пусть это будет началом большего!
       </p>
 
       <div class="footer">
