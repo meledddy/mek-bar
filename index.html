@@ -1,302 +1,427 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Մեկ բառ</title>
-  <meta name="description" content="Одно слово в день." />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Մեկ բառ / Одно слово</title>
 
-  <style>
-    :root{
-      --bg1:#0a0e16;
-      --bg2:#141a2a;
-      --card:#0f1524dd;
-      --stroke:#ffffff26;
-      --text:#f3f5ff;
-      --muted:#c8cde3cc;
-      --muted2:#c8cde388;
-      --accent:#d9b36a;
-      --shadow:0 18px 60px rgba(0,0,0,.45);
-      --radius:22px;
-    }
+    <!-- Fonts: Armenian + Cyrillic (safe, clean) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Armenian:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
+    <style>
+      :root {
+        --bg0: #050710;
+        --bg1: #0a1230;
+        --card: rgba(11, 16, 34, 0.62);
+        --card-strong: rgba(11, 16, 34, 0.74);
+        --stroke: rgba(255, 255, 255, 0.10);
+        --stroke2: rgba(255, 255, 255, 0.08);
+        --text: rgba(255, 255, 255, 0.92);
+        --muted: rgba(255, 255, 255, 0.60);
+        --muted2: rgba(255, 255, 255, 0.46);
+        --soft: rgba(255, 255, 255, 0.12);
+        --dot: #e8c36a;
+      }
 
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(1100px 700px at 20% 10%, rgba(217,179,106,.22), transparent 55%),
-        radial-gradient(900px 600px at 80% 20%, rgba(120,160,255,.18), transparent 55%),
-        linear-gradient(180deg, var(--bg1), var(--bg2));
-      overflow:hidden;
-    }
+      * {
+        box-sizing: border-box;
+      }
 
-    /* Фон с Араратом */
-    .bg{
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      opacity:0;
-      animation:bgFade 900ms ease forwards;
-    }
+      html,
+      body {
+        height: 100%;
+      }
 
-    .bg svg{
-      position:absolute;
-      bottom:0;
-      width:100%;
-      height:min(65vh,560px);
-      filter: drop-shadow(0 18px 40px rgba(0,0,0,.45));
-      transform: translateY(22px);
-      animation:mountRise 1200ms cubic-bezier(.2,.9,.2,1) 120ms forwards;
-    }
+      body {
+        margin: 0;
+        color: var(--text);
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        background: radial-gradient(1200px 700px at 70% 20%, rgba(40, 70, 160, 0.35), transparent 55%),
+          radial-gradient(900px 600px at 25% 0%, rgba(170, 120, 60, 0.18), transparent 55%),
+          linear-gradient(180deg, var(--bg0), var(--bg1));
+        overflow-x: hidden;
+      }
 
-    /* Зерно */
-    .grain{
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      opacity:.06;
-      mix-blend-mode: overlay;
-      background-image:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
-      background-size:240px 240px;
-      animation:grainMove 7s ease-in-out infinite alternate;
-    }
+      /* Variant 1: гора НЕ фон, а отдельный декоративный слой */
+      .bg {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
 
-    .wrap{
-      height:100%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:22px;
-      position:relative;
-    }
+      .bg .vignette {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(1200px 900px at 50% 30%, transparent 35%, rgba(0, 0, 0, 0.55) 90%);
+        opacity: 0.9;
+      }
 
-    .card{
-      width:min(520px,92vw);
-      background:var(--card);
-      border:1px solid var(--stroke);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      backdrop-filter: blur(10px);
-      padding:28px 26px 24px;
-      position:relative;
-      overflow:hidden;
-      transform: translateY(16px);
-      opacity:0;
-      animation:cardIn 720ms cubic-bezier(.2,.9,.2,1) 120ms forwards;
-    }
+      .bg .mountains {
+        position: absolute;
+        left: 50%;
+        bottom: -2vh;
+        transform: translateX(-50%);
+        width: min(1400px, 130vw);
+        height: auto;
+        opacity: 0.26;
+        filter: blur(0px);
+      }
 
-    /* Армянский орнамент */
-    .card::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      border-radius:inherit;
-      pointer-events:none;
-      background:
-        repeating-linear-gradient(
-          45deg,
-          transparent 0 10px,
-          rgba(217,179,106,.12) 10px 12px,
-          transparent 12px 22px
+      .bg .glowline {
+        position: absolute;
+        left: 50%;
+        top: -20vh;
+        transform: translateX(-50%);
+        width: min(1200px, 140vw);
+        height: 60vh;
+        background: radial-gradient(closest-side, rgba(120, 160, 255, 0.16), transparent 70%);
+        opacity: 0.8;
+      }
+
+      /* Layout */
+      .wrap {
+        position: relative;
+        z-index: 1;
+        min-height: 100%;
+        display: grid;
+        place-items: center;
+        padding: 28px 16px;
+      }
+
+      .card {
+        width: min(560px, 92vw);
+        border-radius: 22px;
+        background: linear-gradient(180deg, rgba(12, 18, 38, 0.62), rgba(8, 12, 24, 0.62));
+        border: 1px solid var(--stroke);
+        box-shadow:
+          0 24px 80px rgba(0, 0, 0, 0.55),
+          inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        overflow: hidden;
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.03) 0,
+          rgba(255, 255, 255, 0.03) 2px,
+          transparent 2px,
+          transparent 14px
         );
-      mask:
-        linear-gradient(#000,#000) content-box,
-        linear-gradient(#000,#000);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      padding:14px;
-      opacity:.25;
-    }
+        opacity: 0.35;
+        pointer-events: none;
+      }
 
-    .topline{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:10px;
-      opacity:0;
-      transform: translateY(8px);
-      animation:fadeUp 520ms ease 260ms forwards;
-    }
+      .card-inner {
+        position: relative;
+        padding: 18px 18px 14px 18px;
+      }
 
-    .brand{
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      font-size:14px;
-      color:var(--muted2);
-    }
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding-bottom: 10px;
+      }
 
-    .badge{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      font-size:13px;
-      color:var(--muted);
-      border:1px solid var(--stroke);
-      padding:8px 10px;
-      border-radius:999px;
-    }
+      .brand {
+        font-family: "Noto Sans Armenian", Inter, system-ui, sans-serif;
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        color: var(--muted2);
+        text-transform: uppercase;
+      }
 
-    .dot{
-      width:7px;height:7px;border-radius:50%;
-      background:var(--accent);
-      box-shadow:0 0 14px rgba(217,179,106,.6);
-    }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.78);
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        padding: 7px 10px;
+        border-radius: 999px;
+        user-select: none;
+      }
 
-    .word{
-      font-size:46px;
-      margin:6px 0;
-      opacity:0;
-      transform: translateY(10px);
-      animation:fadeUp 520ms ease 330ms forwards;
-    }
+      .pill .dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 999px;
+        background: var(--dot);
+        box-shadow: 0 0 0 3px rgba(232, 195, 106, 0.14);
+      }
 
-    .pron{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-bottom:14px;
-      opacity:0;
-      transform: translateY(10px);
-      animation:fadeUp 520ms ease 390ms forwards;
-    }
+      .word {
+        font-family: "Noto Sans Armenian", Inter, system-ui, sans-serif;
+        font-weight: 700;
+        font-size: 56px;
+        line-height: 1.05;
+        letter-spacing: -0.03em;
+        margin: 6px 0 12px 0;
+      }
 
-    .pron span{
-      border:1px solid var(--stroke);
-      padding:8px 10px;
-      border-radius:999px;
-      font-size:14px;
-      color:var(--muted);
-    }
+      .chips {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin: 0 0 12px 0;
+      }
 
-    .meaning{
-      font-size:16px;
-      margin-bottom:16px;
-      opacity:0;
-      transform: translateY(10px);
-      animation:fadeUp 520ms ease 450ms forwards;
-    }
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--stroke2);
+        background: rgba(255, 255, 255, 0.05);
+        color: rgba(255, 255, 255, 0.76);
+        font-size: 12px;
+      }
 
-    .note{
-      font-size:15px;
-      line-height:1.6;
-      color:var(--muted);
-      margin-bottom:16px;
-      opacity:0;
-      transform: translateY(10px);
-      animation:fadeUp 520ms ease 520ms forwards;
-    }
+      .chip strong {
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.88);
+      }
 
-    .about{
-      margin-top:18px;
-      padding-top:16px;
-      border-top:1px dashed var(--stroke);
-      font-size:14px;
-      line-height:1.6;
-      color:var(--muted2);
-      opacity:0;
-      transform: translateY(10px);
-      animation:fadeUp 520ms ease 640ms forwards;
-    }
+      .meaning {
+        font-weight: 600;
+        font-size: 16px;
+        margin: 10px 0 10px 0;
+        color: rgba(255, 255, 255, 0.88);
+      }
 
-    .footer{
-      margin-top:18px;
-      padding-top:14px;
-      border-top:1px solid var(--stroke);
-      font-size:13px;
-      color:var(--muted2);
-      display:flex;
-      justify-content:space-between;
-      opacity:0;
-      transform: translateY(10px);
-      animation:fadeUp 520ms ease 720ms forwards;
-    }
+      .desc {
+        margin: 0 0 12px 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.55;
+      }
 
-    @keyframes cardIn{to{opacity:1;transform:translateY(0)}}
-    @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
-    @keyframes bgFade{to{opacity:1}}
-    @keyframes mountRise{to{transform:translateY(0)}}
-    @keyframes grainMove{
-      from{transform:translate(-2%,-1%)}
-      to{transform:translate(2%,1%)}
-    }
+      .hr {
+        height: 1px;
+        width: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.16), transparent);
+        margin: 14px 0;
+        opacity: 0.7;
+      }
 
-    @media (max-width:420px){
-      .card{padding:24px 18px}
-      .word{font-size:40px}
-    }
-  </style>
-</head>
+      .note {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.40);
+        font-size: 13px;
+        line-height: 1.6;
+      }
 
-<body>
-  <!-- Фон с узнаваемым Араратом -->
-  <div class="bg">
-    <svg viewBox="0 0 1440 560" preserveAspectRatio="xMidYMax slice">
-      <defs>
-        <linearGradient id="mountBase" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stop-color="#ffffff" stop-opacity="0.16"/>
-          <stop offset="1" stop-color="#ffffff" stop-opacity="0.04"/>
-        </linearGradient>
-        <linearGradient id="snow" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stop-color="#ffffff" stop-opacity="0.5"/>
-          <stop offset="1" stop-color="#ffffff" stop-opacity="0.15"/>
-        </linearGradient>
-      </defs>
+      .note p {
+        margin: 0 0 10px 0;
+      }
 
-      <!-- дальние холмы -->
-      <path d="M0,420 C200,360 360,350 560,370 C720,386 860,340 1040,330 C1180,322 1320,360 1440,400 L1440,560 L0,560 Z"
-            fill="url(#mountBase)"/>
+      .note p:last-child {
+        margin-bottom: 0;
+      }
 
-      <!-- Большой Арарат -->
-      <path d="M380,560 L720,220 L1060,560 Z" fill="url(#mountBase)"/>
-      <path d="M660,300 L720,220 L780,300 Z" fill="url(#snow)"/>
+      .footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding-top: 12px;
+        color: rgba(255, 255, 255, 0.38);
+        font-size: 12px;
+      }
 
-      <!-- Малый Арарат -->
-      <path d="M240,560 L470,330 L650,560 Z" fill="url(#mountBase)"/>
-      <path d="M430,380 L470,330 L510,380 Z" fill="url(#snow)"/>
-    </svg>
-  </div>
+      /* Optional: audio button (если добавишь позже) */
+      .audio {
+        margin-top: 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        border-radius: 12px;
+        padding: 10px 12px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        color: rgba(255, 255, 255, 0.80);
+        font-size: 13px;
+        cursor: pointer;
+        user-select: none;
+      }
 
-  <div class="grain"></div>
+      .audio:active {
+        transform: translateY(1px);
+      }
 
-  <main class="wrap">
-    <section class="card">
-      <div class="topline">
-        <div class="brand">ՄԵԿ ԲԱՌ</div>
-        <div class="badge"><span class="dot"></span> одно слово</div>
-      </div>
+      .audio .icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 999px;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.10);
+      }
 
-      <h1 class="word">ՍԵՐ</h1>
+      .audio small {
+        color: rgba(255, 255, 255, 0.55);
+        font-size: 12px;
+      }
 
-      <div class="pron">
-        <span>лат.: <strong>ser</strong></span>
-        <span>рус.: <strong>сэ́р</strong></span>
-      </div>
+      /* Subtle entrance */
+      @media (prefers-reduced-motion: no-preference) {
+        .card {
+          animation: cardIn 420ms ease-out both;
+        }
+        @keyframes cardIn {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      }
+    </style>
+  </head>
 
-      <p class="meaning">Нежность · Любовь</p>
+  <body>
+    <!-- Decorative background (Variant 1) -->
+    <div class="bg" aria-hidden="true">
+      <div class="glowline"></div>
 
-      <p class="note">
-        Это про тихое тепло, которое остаётся,<br/>
-        когда рядом спокойно.
-      </p>
+      <!-- SVG гора/пейзаж: можно заменить на свой PNG/SVG, но этот уже работает -->
+      <svg class="mountains" viewBox="0 0 1600 520" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="g0" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="white" stop-opacity="0.18" />
+            <stop offset="1" stop-color="white" stop-opacity="0.02" />
+          </linearGradient>
+          <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="white" stop-opacity="0.22" />
+            <stop offset="1" stop-color="white" stop-opacity="0.03" />
+          </linearGradient>
+        </defs>
 
-      <p class="about">
-        Это маленькое место для одного слова.<br/>
-        Иногда здесь будет слово, иногда - что-то ещё<br/>
-        Ты можешь заходить, когда захочешь,<br/>
-        или не заходить вовсе - оно всегда здесь.<br/><br/>
-        Пусть это будет началом большего!
-      </p>
+        <!-- ground -->
+        <path
+          d="M-10,520 C120,420 300,380 520,380 C760,380 940,460 1160,460 C1370,460 1500,410 1610,360 L1610,520 Z"
+          fill="url(#g0)"
+        />
 
-      <div class="footer">
-        <div>для тебя</div>
-        <div>обновлю завтра · если захочешь</div>
-      </div>
-    </section>
-  </main>
-</body>
+        <!-- left pyramid -->
+        <path d="M220,520 L520,240 L840,520 Z" fill="white" fill-opacity="0.10" />
+        <path d="M520,240 L670,520 L840,520 Z" fill="white" fill-opacity="0.06" />
+
+        <!-- ararat silhouette -->
+        <path d="M780,520 L980,330 L1210,520 Z" fill="white" fill-opacity="0.08" />
+        <path d="M980,330 L1090,520 L1210,520 Z" fill="white" fill-opacity="0.05" />
+
+        <!-- soft ridge -->
+        <path
+          d="M-10,520 C180,470 350,450 520,450 C700,450 880,500 1080,500 C1280,500 1440,460 1610,430 L1610,520 Z"
+          fill="url(#g1)"
+        />
+      </svg>
+
+      <div class="vignette"></div>
+    </div>
+
+    <main class="wrap">
+      <section class="card">
+        <div class="card-inner">
+          <div class="topbar">
+            <div class="brand">մեկ բառ</div>
+            <div class="pill"><span class="dot"></span>одно слово</div>
+          </div>
+
+          <h1 class="word">Սեր</h1>
+
+          <div class="chips">
+            <div class="chip"><span>лат.:</span><strong>ser</strong></div>
+            <div class="chip"><span>рус.:</span><strong>сэр</strong></div>
+          </div>
+
+          <div class="meaning">Нежность · Любовь</div>
+          <p class="desc">Это про тихое тепло, которое остаётся, когда рядом спокойно.</p>
+
+          <!-- Если хочешь кнопку голоса — оставь, и просто подключи файл в JS ниже -->
+          <!-- <button class="audio" id="playBtn" type="button">
+            <span class="icon" aria-hidden="true">▶</span>
+            <span>
+              послушать
+              <br />
+              <small>мой голос</small>
+            </span>
+          </button>
+          <audio id="voice" preload="none" src="audio/ser.mp3"></audio> -->
+
+          <div class="hr"></div>
+
+          <div class="note">
+            <p>Это маленькое место для одного слова.</p>
+            <p>
+              Иногда здесь будет слово, иногда — что-то ещё.<br />
+              Ты можешь заходить, когда захочешь,<br />
+              или не заходить вовсе — оно всегда здесь.
+            </p>
+            <p>Пусть это будет началом большего!</p>
+          </div>
+
+          <div class="hr"></div>
+
+          <div class="footer">
+            <div>для тебя</div>
+            <div>обновлю завтра - если захочешь</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      // Ничего не автоматизируем. Только по клику, только по желанию.
+
+      // Если включишь аудио-кнопку выше, раскомментируй:
+      /*
+      const btn = document.getElementById("playBtn");
+      const audio = document.getElementById("voice");
+      let playing = false;
+
+      btn?.addEventListener("click", async () => {
+        if (!audio) return;
+
+        try {
+          if (!playing) {
+            await audio.play();
+            playing = true;
+          } else {
+            audio.pause();
+            audio.currentTime = 0;
+            playing = false;
+          }
+        } catch (_) {
+          // Молча: мобильные браузеры иногда блокируют, если не было явного жеста.
+        }
+      });
+
+      audio?.addEventListener("ended", () => {
+        playing = false;
+      });
+      */
+    </script>
+  </body>
 </html>
+  
