@@ -25,6 +25,7 @@
         --muted2: rgba(255, 255, 255, 0.46);
 
         --dot: #e8c36a;
+        --gold: rgba(232, 195, 106, 0.80);
       }
 
       * { box-sizing: border-box; }
@@ -49,7 +50,6 @@
         pointer-events: none;
       }
 
-      /* very subtle hint of Armenian tricolor (3–4 plane) */
       .bg::before {
         content: "";
         position: absolute;
@@ -74,21 +74,14 @@
         opacity: 0.85;
       }
 
-      /* Pomegranate symbol */
       .pomegranate {
         position: absolute;
         right: clamp(16px, 6vw, 72px);
         bottom: clamp(18px, 6vh, 64px);
         width: clamp(140px, 22vw, 240px);
         opacity: 0.55;
-        filter: blur(0px);
       }
-
-      .pomegranate svg {
-        width: 100%;
-        height: auto;
-        display: block;
-      }
+      .pomegranate svg { width: 100%; height: auto; display: block; }
 
       .bg .vignette {
         position: absolute;
@@ -145,7 +138,7 @@
         gap: 10px;
         padding-bottom: 10px;
       }
-
+      
       .brand {
         font-family: "Noto Sans Armenian", Inter, system-ui, sans-serif;
         font-size: 12px;
@@ -208,10 +201,17 @@
       }
 
       .desc {
-        margin: 0 0 12px 0;
+        margin: 0 0 10px 0;
         color: var(--muted);
         font-size: 14px;
         line-height: 1.55;
+      }
+
+      .touch {
+        margin: 0 0 12px 0;
+        font-size: 14px;
+        line-height: 1.55;
+        color: var(--gold);
       }
 
       /* ===== Soft signal (heart) ===== */
@@ -220,8 +220,8 @@
         align-items: center;
         justify-content: space-between;
         gap: 10px;
-        margin: 10px 0 4px 0;
-        padding-top: 10px;
+        margin: 10px 0 0 0;
+        padding-top: 12px;
         border-top: 1px solid rgba(255, 255, 255, 0.08);
       }
 
@@ -245,6 +245,7 @@
         font-size: 12px;
         user-select: none;
         transition: transform 120ms ease, background 160ms ease, border-color 160ms ease;
+        white-space: nowrap;
       }
 
       .heart:hover { background: rgba(255, 255, 255, 0.10); }
@@ -254,6 +255,7 @@
       .heart.sent {
         border-color: rgba(232, 195, 106, 0.30);
         box-shadow: 0 0 0 4px rgba(232, 195, 106, 0.10);
+        cursor: default;
       }
 
       .footer {
@@ -280,7 +282,6 @@
     <div class="bg" aria-hidden="true">
       <div class="glowline"></div>
 
-      <!-- Armenian pomegranate symbol (minimal, quiet) -->
       <div class="pomegranate" aria-hidden="true">
         <svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -311,7 +312,6 @@
             fill="url(#armFlagHint)"
             opacity="0.18"
           />
-
           <path
             d="M160 72
                C126 86 104 116 104 156
@@ -362,8 +362,8 @@
           <h1 class="word">ՄԵՐՁ</h1>
 
           <div class="chips">
-            <div class="chip">лат.: <strong>merz</strong></div>
-            <div class="chip">рус.: <strong>мéрц</strong></div>
+            <div class="chip"><span>лат.:</span><strong>merz</strong></div>
+            <div class="chip"><span>рус.:</span><strong>мéрц</strong></div>
           </div>
 
           <div class="meaning">Близко · Рядом · Почти касаясь</div>
@@ -377,6 +377,15 @@
             Спокойно. Медленно. Вплотную.
           </p>
 
+          <!-- Soft signal -->
+          <div class="signal" aria-label="Мягкий сигнал">
+            <div class="hint">Если захочешь — оставь маленький след.</div>
+            <button class="heart" id="heartBtn" type="button">
+              <span class="icon">🤍</span>
+              <span class="txt">оставить</span>
+            </button>
+          </div>
+
           <div class="footer">
             <div>для тебя🫶</div>
             <div>без ожиданий</div>
@@ -385,7 +394,7 @@
       </section>
     </main>
 
-    <!-- GoatCounter (замени YOURCODE на свой код) -->
+    <!-- GoatCounter: замени YOURCODE на свой код -->
     <script
       data-goatcounter="https://meledddy.goatcounter.com/count"
       async
@@ -399,7 +408,6 @@
 
         const STORAGE_KEY = "oneword_heart_sent_v1";
         const SENT_TEXT = "оставлено";
-        const DEFAULT_TEXT = "оставить";
 
         function setSentUI() {
           btn.classList.add("sent");
@@ -408,7 +416,6 @@
           if (txt) txt.textContent = SENT_TEXT;
         }
 
-        // Если уже нажимала на этом устройстве — сразу показываем "оставлено"
         try {
           if (localStorage.getItem(STORAGE_KEY) === "1") {
             setSentUI();
@@ -417,14 +424,10 @@
         } catch (_) {}
 
         btn.addEventListener("click", function () {
-          // 1) Ставим UI сразу (мягко, без ожидания ответа сети)
           setSentUI();
 
-          // 2) Запоминаем локально, чтобы не спамить событие
           try { localStorage.setItem(STORAGE_KEY, "1"); } catch (_) {}
 
-          // 3) Отправляем событие в GoatCounter (кастомный path)
-          //    В статистике это будет отдельная "страница": /signal/heart
           try {
             if (window.goatcounter && typeof window.goatcounter.count === "function") {
               window.goatcounter.count({
@@ -433,7 +436,6 @@
                 event: true
               });
             } else {
-              // Фоллбек: если скрипт ещё не успел загрузиться, отправим через пиксель
               const img = new Image();
               img.referrerPolicy = "no-referrer-when-downgrade";
               img.src =
