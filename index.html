@@ -41,7 +41,7 @@
         overflow-x: hidden;
       }
 
-      /* ===== Decorative background layer (NO mountains) ===== */
+      /* ===== Background ===== */
       .bg {
         position: fixed;
         inset: 0;
@@ -49,7 +49,6 @@
         pointer-events: none;
       }
 
-      /* very subtle hint of Armenian tricolor (3–4 plane) */
       .bg::before {
         content: "";
         position: absolute;
@@ -60,7 +59,6 @@
           rgba(38, 73, 140, 0.06) 45%,
           rgba(197, 128, 52, 0.05) 100%
         );
-        opacity: 1;
       }
 
       .bg .glowline {
@@ -71,30 +69,20 @@
         width: min(1200px, 140vw);
         height: 60vh;
         background: radial-gradient(closest-side, rgba(120, 160, 255, 0.16), transparent 70%);
-        opacity: 0.85;
       }
 
-      /* Pomegranate symbol */
       .pomegranate {
         position: absolute;
         right: clamp(16px, 6vw, 72px);
         bottom: clamp(18px, 6vh, 64px);
         width: clamp(140px, 22vw, 240px);
         opacity: 0.55;
-        filter: blur(0px);
-      }
-
-      .pomegranate svg {
-        width: 100%;
-        height: auto;
-        display: block;
       }
 
       .bg .vignette {
         position: absolute;
         inset: 0;
         background: radial-gradient(1200px 900px at 50% 30%, transparent 35%, rgba(0, 0, 0, 0.55) 90%);
-        opacity: 0.9;
       }
 
       /* ===== Layout ===== */
@@ -108,7 +96,6 @@
       }
 
       .card {
-        position: relative;
         width: min(560px, 92vw);
         border-radius: 22px;
         background: linear-gradient(180deg, rgba(12, 18, 38, 0.62), rgba(8, 12, 24, 0.62));
@@ -117,7 +104,6 @@
           0 24px 80px rgba(0, 0, 0, 0.55),
           inset 0 1px 0 rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
         overflow: hidden;
       }
 
@@ -136,13 +122,11 @@
         pointer-events: none;
       }
 
-      .card-inner { position: relative; padding: 18px 18px 14px 18px; }
+      .card-inner { padding: 18px; }
 
       .topbar {
         display: flex;
-        align-items: center;
         justify-content: space-between;
-        gap: 10px;
         padding-bottom: 10px;
       }
 
@@ -164,7 +148,6 @@
         border: 1px solid rgba(255, 255, 255, 0.10);
         padding: 7px 10px;
         border-radius: 999px;
-        user-select: none;
       }
 
       .pill .dot {
@@ -179,155 +162,62 @@
         font-family: "Noto Sans Armenian", Inter, system-ui, sans-serif;
         font-weight: 700;
         font-size: 56px;
-        line-height: 1.05;
-        letter-spacing: -0.03em;
         margin: 6px 0 12px 0;
       }
 
-      .chips { display: flex; gap: 10px; flex-wrap: wrap; margin: 0 0 12px 0; }
+      .chips {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+      }
 
       .chip {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
         padding: 7px 10px;
         border-radius: 999px;
         border: 1px solid var(--stroke2);
         background: rgba(255, 255, 255, 0.05);
-        color: rgba(255, 255, 255, 0.76);
         font-size: 12px;
+        color: rgba(255, 255, 255, 0.76);
       }
 
-      .chip strong { font-weight: 600; color: rgba(255, 255, 255, 0.88); }
+      .chip strong { color: rgba(255, 255, 255, 0.88); }
 
       .meaning {
         font-weight: 600;
         font-size: 16px;
-        margin: 10px 0 10px 0;
-        color: rgba(255, 255, 255, 0.88);
+        margin: 10px 0;
       }
 
       .desc {
-        margin: 0 0 12px 0;
         color: var(--muted);
         font-size: 14px;
         line-height: 1.55;
+        margin-bottom: 12px;
       }
 
-      .hr {
-        height: 1px;
-        width: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.16), transparent);
-        margin: 14px 0;
-        opacity: 0.7;
+      .touch {
+        font-size: 14px;
+        line-height: 1.55;
+        color: rgba(232, 195, 106, 0.80);
+        margin-bottom: 14px;
       }
-
-      .note {
-        margin: 0;
-        color: rgba(255, 255, 255, 0.40);
-        font-size: 13px;
-        line-height: 1.6;
-      }
-
-      .note p { margin: 0 0 10px 0; }
-      .note p:last-child { margin-bottom: 0; }
 
       .footer {
         display: flex;
-        align-items: center;
         justify-content: space-between;
-        gap: 10px;
-        padding-top: 12px;
-        color: rgba(255, 255, 255, 0.38);
         font-size: 12px;
-      }
-
-      @media (prefers-reduced-motion: no-preference) {
-        .card { animation: cardIn 420ms ease-out both; }
-        @keyframes cardIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
+        color: rgba(255, 255, 255, 0.38);
+        padding-top: 8px;
+        border-top: 1px solid var(--stroke2);
       }
     </style>
   </head>
 
   <body>
-    <div class="bg" aria-hidden="true">
+    <div class="bg">
       <div class="glowline"></div>
-
-      <!-- Armenian pomegranate symbol (minimal, quiet) -->
-      <div class="pomegranate" aria-hidden="true">
-        <svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="armFlagHint" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#b23a3a" stop-opacity="0.55" />
-              <stop offset="52%" stop-color="#2f5aa0" stop-opacity="0.55" />
-              <stop offset="100%" stop-color="#c48734" stop-opacity="0.55" />
-            </linearGradient>
-
-            <radialGradient id="softGlow" cx="45%" cy="30%" r="75%">
-              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.22" />
-              <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
-            </radialGradient>
-          </defs>
-
-          <!-- Body -->
-          <path
-            d="M160 38
-               C150 54 138 62 124 66
-               C132 68 142 66 150 62
-               C150 78 132 92 114 98
-               C80 110 58 140 58 178
-               C58 240 104 282 160 282
-               C216 282 262 240 262 178
-               C262 140 240 110 206 98
-               C188 92 170 78 170 62
-               C178 66 188 68 196 66
-               C182 62 170 54 160 38 Z"
-            fill="url(#armFlagHint)"
-            opacity="0.18"
-          />
-
-          <!-- Inner soft light -->
-          <path
-            d="M160 72
-               C126 86 104 116 104 156
-               C104 212 132 244 160 256
-               C188 244 216 212 216 156
-               C216 116 194 86 160 72 Z"
-            fill="url(#softGlow)"
-            opacity="0.30"
-          />
-
-          <!-- Seeds hint -->
-          <circle cx="130" cy="170" r="10" fill="#ffffff" opacity="0.07" />
-          <circle cx="160" cy="154" r="11" fill="#ffffff" opacity="0.06" />
-          <circle cx="190" cy="174" r="10" fill="#ffffff" opacity="0.07" />
-          <circle cx="150" cy="198" r="9" fill="#ffffff" opacity="0.06" />
-          <circle cx="176" cy="206" r="9" fill="#ffffff" opacity="0.06" />
-
-          <!-- Stroke -->
-          <path
-            d="M160 38
-               C150 54 138 62 124 66
-               C132 68 142 66 150 62
-               C150 78 132 92 114 98
-               C80 110 58 140 58 178
-               C58 240 104 282 160 282
-               C216 282 262 240 262 178
-               C262 140 240 110 206 98
-               C188 92 170 78 170 62
-               C178 66 188 68 196 66
-               C182 62 170 54 160 38 Z"
-            fill="none"
-            stroke="#ffffff"
-            stroke-opacity="0.08"
-            stroke-width="2"
-          />
-        </svg>
-      </div>
-
+      <div class="pomegranate"></div>
       <div class="vignette"></div>
     </div>
 
@@ -339,33 +229,27 @@
             <div class="pill"><span class="dot"></span>одно слово</div>
           </div>
 
-          <h1 class="word">Սեր</h1>
+          <h1 class="word">ՄԵՐՁ</h1>
 
           <div class="chips">
-            <div class="chip"><span>лат.:</span><strong>ser</strong></div>
-            <div class="chip"><span>рус.:</span><strong>сэр</strong></div>
+            <div class="chip">лат.: <strong>merz</strong></div>
+            <div class="chip">рус.: <strong>мéрц</strong></div>
           </div>
 
-          <div class="meaning">Нежность · Любовь</div>
-          <p class="desc">Это про тепло, которое остаётся, когда рядом спокойно.</p>
+          <div class="meaning">Близко · Рядом · Почти касаясь</div>
 
-          <div class="hr"></div>
+          <p class="desc">
+            Это не про расстояние. Это про момент, когда ничего не происходит - и от этого ощущается больше.
+          </p>
 
-          <div class="note">
-            <p>Это маленькое место для одного слова.</p>
-            <p>
-              Иногда здесь будет слово, иногда - что-то ещё.<br />
-              Ты можешь заходить, когда захочешь,<br />
-              или не заходить вовсе - оно всегда здесь.
-            </p>
-            <p>Пусть это будет началом большего!</p>
-          </div>
-
-          <div class="hr"></div>
+          <p class="touch">
+            Почувствуй, как я рядом.<br />
+            Спокойно. Медленно. Вплотную.
+          </p>
 
           <div class="footer">
-            <div>для тебя🫶</div>
-            <div>обновлю завтра - если захочешь</div>
+            <div>для тебя</div>
+            <div>без ожиданий</div>
           </div>
         </div>
       </section>
