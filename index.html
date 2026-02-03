@@ -138,7 +138,7 @@
         gap: 10px;
         padding-bottom: 10px;
       }
-      
+
       .brand {
         font-family: "Noto Sans Armenian", Inter, system-ui, sans-serif;
         font-size: 12px;
@@ -268,6 +268,14 @@
         font-size: 12px;
       }
 
+      .archive-link {
+        color: rgba(255, 255, 255, 0.55);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        padding-bottom: 2px;
+      }
+      .archive-link:hover { color: rgba(255, 255, 255, 0.78); }
+
       @media (prefers-reduced-motion: no-preference) {
         .card { animation: cardIn 420ms ease-out both; }
         @keyframes cardIn {
@@ -359,27 +367,29 @@
             <div class="pill"><span class="dot"></span>одно слово</div>
           </div>
 
-          <h1 class="word">ՄԵՐՁ</h1>
+          <!-- WORD OF THE DAY -->
+          <h1 class="word">Լուռ</h1>
 
           <div class="chips">
-            <div class="chip"><span>лат.:</span><strong>merz</strong></div>
-            <div class="chip"><span>рус.:</span><strong>мéрц</strong></div>
+            <div class="chip"><span>лат.:</span><strong>lurr</strong></div>
+            <div class="chip"><span>рус.:</span><strong>лур</strong></div>
           </div>
 
-          <div class="meaning">Близко · Рядом · Почти касаясь</div>
+          <div class="meaning">Тихо · Без слов</div>
 
           <p class="desc">
-            Это не про расстояние. Это про момент, когда ничего не происходит - и от этого ощущается больше.
+            Иногда близость — это не слова. Это тишина, в которой ты не исчезаешь.
           </p>
 
           <p class="touch">
-            Почувствуй, как я рядом.<br />
-            Спокойно. Медленно. Вплотную.
+            Я рядом.<br />
+            Не чтобы что-то сказать —<br />
+            а чтобы быть.
           </p>
 
           <!-- Soft signal -->
           <div class="signal" aria-label="Мягкий сигнал">
-            <div class="hint">Если захочешь - оставь маленький след.</div>
+            <div class="hint">Если захочешь — оставь маленький след.</div>
             <button class="heart" id="heartBtn" type="button">
               <span class="icon">🤍</span>
               <span class="txt">оставить</span>
@@ -388,13 +398,16 @@
 
           <div class="footer">
             <div>для тебя🫶</div>
-            <div>без ожиданий</div>
+            <div>
+              <a class="archive-link" href="archive/">архив</a>
+              · без ожиданий
+            </div>
           </div>
         </div>
       </section>
     </main>
 
-    <!-- GoatCounter: замени YOURCODE на свой код -->
+    <!-- GoatCounter -->
     <script
       data-goatcounter="https://meledddy.goatcounter.com/count"
       async
@@ -406,7 +419,9 @@
         const btn = document.getElementById("heartBtn");
         if (!btn) return;
 
-        const STORAGE_KEY = "oneword_heart_sent_v1";
+        // NEW: key is per-word, so "heart" is possible once for each word, not once forever
+        const WORD_ID = "lurr";
+        const STORAGE_KEY = "oneword_heart_sent_" + WORD_ID + "_v1";
         const SENT_TEXT = "оставлено";
 
         function setSentUI() {
@@ -429,20 +444,22 @@
           try { localStorage.setItem(STORAGE_KEY, "1"); } catch (_) {}
 
           try {
+            const path = "/signal/heart/" + WORD_ID;
+
             if (window.goatcounter && typeof window.goatcounter.count === "function") {
               window.goatcounter.count({
-                path: "/signal/heart",
-                title: "soft-signal-heart",
+                path,
+                title: "soft-signal-heart-" + WORD_ID,
                 event: true
               });
             } else {
               const img = new Image();
               img.referrerPolicy = "no-referrer-when-downgrade";
               img.src =
-                "https://YOURCODE.goatcounter.com/count?p=" +
-                encodeURIComponent("/signal/heart") +
+                "https://meledddy.goatcounter.com/count?p=" +
+                encodeURIComponent(path) +
                 "&t=" +
-                encodeURIComponent("soft-signal-heart") +
+                encodeURIComponent("soft-signal-heart-" + WORD_ID) +
                 "&e=1";
             }
           } catch (_) {}
