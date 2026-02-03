@@ -68,6 +68,16 @@
         color: var(--muted2);
       }
 
+      /* NEW: quiet back link */
+      a.back {
+        color: rgba(255,255,255,0.70);
+        text-decoration: none;
+        font-size: 13px;
+        border-bottom: 1px solid rgba(255,255,255,0.12);
+        padding-bottom: 2px;
+      }
+      a.back:hover { color: rgba(255,255,255,0.86); }
+
       .shelf {
         border: 1px solid var(--stroke);
         border-radius: 18px;
@@ -140,12 +150,15 @@
         background: rgba(255,255,255,0.06);
       }
 
+      /* FIX: Armenian words were dark — force bright color + subtle shadow */
       .hy {
         font-family: "Noto Sans Armenian", Inter, system-ui, sans-serif;
         font-weight: 700;
         font-size: 22px;
         letter-spacing: -0.02em;
         margin: 0 0 6px 0;
+        color: rgba(255,255,255,0.95);
+        text-shadow: 0 1px 10px rgba(0,0,0,0.55);
       }
 
       .short {
@@ -200,6 +213,7 @@
         font-weight: 700;
         font-size: 22px;
         margin: 0;
+        color: rgba(255,255,255,0.95);
       }
 
       .closeBtn {
@@ -256,8 +270,7 @@
       <div class="shell">
         <header>
           <div class="title">архив</div>
-          <!-- пока без ссылки на главную (ты просил не трогать главную).
-               если захочешь — добавим потом аккуратно -->
+          <a class="back" href="../">вернуться</a>
         </header>
 
         <section class="shelf" aria-label="Архив слов">
@@ -371,7 +384,6 @@
         render(filtered);
       }
 
-      // Modal interactions
       closeBtn.addEventListener("click", closeModal);
       overlay.addEventListener("click", (e) => {
         if (e.target === overlay) closeModal();
@@ -381,17 +393,15 @@
         if (e.key === "Escape") closeModal();
       });
 
-      // Search
       q.addEventListener("input", applyFilter);
 
-      // Load data
       (async () => {
         try {
           const res = await fetch(DATA_URL, { cache: "no-store" });
           if (!res.ok) throw new Error("Failed to load words.json");
           words = await res.json();
 
-          // Полка: последние добавленные сверху (если порядок в JSON = от старого к новому)
+          // newest first (if JSON is old -> new)
           words = [...words].reverse();
 
           render(words);
@@ -404,5 +414,3 @@
     </script>
   </body>
 </html>
-
-
