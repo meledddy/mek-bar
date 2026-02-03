@@ -1,1 +1,408 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Архив</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Armenian:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --bg0: #050710;
+        --bg1: #0a1230;
+
+        --stroke: rgba(255, 255, 255, 0.10);
+        --stroke2: rgba(255, 255, 255, 0.08);
+
+        --text: rgba(255, 255, 255, 0.92);
+        --muted: rgba(255, 255, 255, 0.60);
+        --muted2: rgba(255, 255, 255, 0.46);
+
+        --cardA: rgba(12, 18, 38, 0.58);
+        --cardB: rgba(8, 12, 24, 0.55);
+      }
+
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+
+      body {
+        margin: 0;
+        color: var(--text);
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        background:
+          radial-gradient(1200px 700px at 70% 20%, rgba(40, 70, 160, 0.32), transparent 55%),
+          radial-gradient(900px 600px at 25% 0%, rgba(170, 120, 60, 0.16), transparent 55%),
+          linear-gradient(180deg, var(--bg0), var(--bg1));
+        overflow-x: hidden;
+      }
+
+      .wrap {
+        min-height: 100%;
+        display: grid;
+        place-items: start center;
+        padding: 26px 16px 42px;
+      }
+
+      .shell {
+        width: min(820px, 94vw);
+      }
+
+      header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+
+      .title {
+        font-size: 14px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--muted2);
+      }
+
+      .shelf {
+        border: 1px solid var(--stroke);
+        border-radius: 18px;
+        background: linear-gradient(180deg, var(--cardA), var(--cardB));
+        box-shadow: 0 24px 80px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.05);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        overflow: hidden;
+      }
+
+      .shelfTop {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 14px 14px 10px;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+      }
+
+      .hint {
+        font-size: 13px;
+        color: rgba(255,255,255,0.55);
+        line-height: 1.4;
+      }
+
+      .search {
+        width: min(280px, 46vw);
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,0.10);
+        background: rgba(255,255,255,0.05);
+        color: rgba(255,255,255,0.86);
+        padding: 10px 12px;
+        font-size: 13px;
+        outline: none;
+      }
+
+      .search::placeholder { color: rgba(255,255,255,0.40); }
+      .search:focus { border-color: rgba(255,255,255,0.18); }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        padding: 14px;
+      }
+
+      @media (max-width: 760px) {
+        .grid { grid-template-columns: repeat(2, 1fr); }
+      }
+      @media (max-width: 380px) {
+        .grid { grid-template-columns: 1fr; }
+        .search { width: 100%; }
+        .shelfTop { flex-direction: column; align-items: stretch; }
+      }
+
+      .item {
+        text-align: left;
+        border-radius: 16px;
+        border: 1px solid rgba(255,255,255,0.10);
+        background: rgba(255,255,255,0.04);
+        padding: 12px 12px 10px;
+        cursor: pointer;
+        user-select: none;
+        transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
+      }
+
+      .item:hover {
+        transform: translateY(-1px);
+        border-color: rgba(255,255,255,0.16);
+        background: rgba(255,255,255,0.06);
+      }
+
+      .hy {
+        font-family: "Noto Sans Armenian", Inter, system-ui, sans-serif;
+        font-weight: 700;
+        font-size: 22px;
+        letter-spacing: -0.02em;
+        margin: 0 0 6px 0;
+      }
+
+      .short {
+        font-size: 12.5px;
+        color: rgba(255,255,255,0.62);
+        line-height: 1.35;
+        margin: 0;
+      }
+
+      .empty {
+        padding: 18px 14px 20px;
+        color: rgba(255,255,255,0.55);
+        font-size: 13px;
+        display: none;
+      }
+
+      /* ===== Modal ===== */
+      .modalOverlay {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        background: rgba(0,0,0,0.55);
+        z-index: 50;
+      }
+      .modalOverlay[data-open="true"] { display: flex; }
+
+      .modal {
+        width: min(520px, 94vw);
+        border-radius: 18px;
+        border: 1px solid rgba(255,255,255,0.12);
+        background: linear-gradient(180deg, rgba(12, 18, 38, 0.76), rgba(8, 12, 24, 0.76));
+        box-shadow: 0 26px 90px rgba(0,0,0,0.60);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        overflow: hidden;
+      }
+
+      .modalHeader {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 14px 14px 10px;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+      }
+
+      .modalTitle {
+        font-family: "Noto Sans Armenian", Inter, system-ui, sans-serif;
+        font-weight: 700;
+        font-size: 22px;
+        margin: 0;
+      }
+
+      .closeBtn {
+        border: 1px solid rgba(255,255,255,0.10);
+        background: rgba(255,255,255,0.05);
+        color: rgba(255,255,255,0.80);
+        border-radius: 12px;
+        padding: 8px 10px;
+        font-size: 13px;
+        cursor: pointer;
+      }
+      .closeBtn:hover { background: rgba(255,255,255,0.07); }
+
+      .modalBody { padding: 12px 14px 14px; }
+
+      .label {
+        font-size: 12px;
+        letter-spacing: 0.10em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.45);
+        margin-bottom: 6px;
+      }
+
+      .mutedLine {
+        margin: 0 0 12px 0;
+        font-size: 13px;
+        color: rgba(255,255,255,0.50);
+        line-height: 1.5;
+      }
+
+      .pillRow {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(255,255,255,0.10);
+        background: rgba(255,255,255,0.05);
+        font-size: 13px;
+        color: rgba(255,255,255,0.78);
+      }
+      .pill strong { color: rgba(255,255,255,0.92); font-weight: 600; }
+    </style>
+  </head>
+
+  <body>
+    <main class="wrap">
+      <div class="shell">
+        <header>
+          <div class="title">архив</div>
+          <!-- пока без ссылки на главную (ты просил не трогать главную).
+               если захочешь — добавим потом аккуратно -->
+        </header>
+
+        <section class="shelf" aria-label="Архив слов">
+          <div class="shelfTop">
+            <div class="hint">Можно вернуться к любому слову.</div>
+            <input id="q" class="search" type="search" inputmode="search" placeholder="поиск…" aria-label="Поиск по словам" />
+          </div>
+
+          <div id="grid" class="grid" role="list"></div>
+          <div id="empty" class="empty">Ничего не найдено.</div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Modal -->
+    <div id="overlay" class="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="mTitle" data-open="false">
+      <div class="modal">
+        <div class="modalHeader">
+          <h2 id="mTitle" class="modalTitle"></h2>
+          <button id="closeBtn" class="closeBtn" type="button" aria-label="Закрыть">закрыть</button>
+        </div>
+        <div class="modalBody">
+          <div class="label">кратко</div>
+          <p id="mShort" class="mutedLine"></p>
+
+          <div class="label">произношение</div>
+          <div class="pillRow">
+            <div class="pill"><span>лат.:</span> <strong id="mLatin"></strong></div>
+            <div class="pill"><span>рус.:</span> <strong id="mRu"></strong></div>
+            <div class="pill"><span>ударение:</span> <strong id="mStress"></strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const DATA_URL = "../data/words.json";
+
+      const grid = document.getElementById("grid");
+      const empty = document.getElementById("empty");
+      const q = document.getElementById("q");
+
+      const overlay = document.getElementById("overlay");
+      const closeBtn = document.getElementById("closeBtn");
+      const mTitle = document.getElementById("mTitle");
+      const mShort = document.getElementById("mShort");
+      const mLatin = document.getElementById("mLatin");
+      const mRu = document.getElementById("mRu");
+      const mStress = document.getElementById("mStress");
+
+      let words = [];
+      let lastFocus = null;
+
+      function escapeHTML(str) {
+        return String(str ?? "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function render(list) {
+        grid.innerHTML = "";
+        empty.style.display = list.length ? "none" : "block";
+
+        for (const w of list) {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "item";
+          btn.setAttribute("role", "listitem");
+
+          btn.innerHTML =
+            `<div class="hy">${escapeHTML(w.hy)}</div>` +
+            `<p class="short">${escapeHTML(w.short)}</p>`;
+
+          btn.addEventListener("click", () => openModal(w, btn));
+          grid.appendChild(btn);
+        }
+      }
+
+      function openModal(w, focusEl) {
+        lastFocus = focusEl || document.activeElement;
+
+        mTitle.textContent = w.hy || "";
+        mShort.textContent = w.short || "";
+        mLatin.textContent = w.latin || "—";
+        mRu.textContent = w.ru || "—";
+        mStress.textContent = w.stress || "—";
+
+        overlay.dataset.open = "true";
+        closeBtn.focus();
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeModal() {
+        overlay.dataset.open = "false";
+        document.body.style.overflow = "";
+        if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+      }
+
+      function applyFilter() {
+        const term = (q.value || "").trim().toLowerCase();
+        if (!term) return render(words);
+
+        const filtered = words.filter((w) => {
+          const hay = [w.hy, w.short, w.latin, w.ru, w.stress].filter(Boolean).join(" ").toLowerCase();
+          return hay.includes(term);
+        });
+
+        render(filtered);
+      }
+
+      // Modal interactions
+      closeBtn.addEventListener("click", closeModal);
+      overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) closeModal();
+      });
+      window.addEventListener("keydown", (e) => {
+        if (overlay.dataset.open !== "true") return;
+        if (e.key === "Escape") closeModal();
+      });
+
+      // Search
+      q.addEventListener("input", applyFilter);
+
+      // Load data
+      (async () => {
+        try {
+          const res = await fetch(DATA_URL, { cache: "no-store" });
+          if (!res.ok) throw new Error("Failed to load words.json");
+          words = await res.json();
+
+          // Полка: последние добавленные сверху (если порядок в JSON = от старого к новому)
+          words = [...words].reverse();
+
+          render(words);
+        } catch (err) {
+          grid.innerHTML = "";
+          empty.style.display = "block";
+          empty.textContent = "Не удалось загрузить архив.";
+        }
+      })();
+    </script>
+  </body>
+</html>
+
 
