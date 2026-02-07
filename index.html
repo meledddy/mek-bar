@@ -42,7 +42,7 @@
         overflow-x: hidden;
       }
 
-      /* ===== Decorative background layer (NO mountains) ===== */
+      /* ===== Decorative background layer ===== */
       .bg {
         position: fixed;
         inset: 0;
@@ -368,23 +368,23 @@
           </div>
 
           <!-- WORD OF THE DAY -->
-          <h1 class="word">Լուռ</h1>
+          <h1 class="word">Շունչ</h1>
 
           <div class="chips">
-            <div class="chip"><span>лат.:</span><strong>lurr</strong></div>
-            <div class="chip"><span>рус.:</span><strong>лур</strong></div>
+            <div class="chip"><span>лат.:</span><strong>shunch</strong></div>
+            <div class="chip"><span>рус.:</span><strong>шунч</strong></div>
           </div>
 
-          <div class="meaning">Тихо · Без слов · Молча</div>
+          <div class="meaning">Дыхание · Тёплая пауза</div>
 
           <p class="desc">
-            Иногда близость - это не слова, а тишина, в которой ты не исчезаешь.
+            Когда между нами расстояние, я всё равно чувствую жизнь рядом — по тому, как ты дышишь.
           </p>
 
           <p class="touch">
-            Я рядом.<br />
-            Не чтобы что-то сказать -<br />
-            а чтобы быть.
+            Сделай один спокойный вдох.<br />
+            И на выдохе — просто вспомни меня.<br />
+            Этого достаточно.
           </p>
 
           <!-- Soft signal -->
@@ -400,6 +400,7 @@
             <div>для тебя🫶</div>
             <div>
               <a class="archive-link" href="archive/">архив</a>
+              · без ожиданий
             </div>
           </div>
         </div>
@@ -418,8 +419,7 @@
         const btn = document.getElementById("heartBtn");
         if (!btn) return;
 
-        // NEW: key is per-word, so "heart" is possible once for each word, not once forever
-        const WORD_ID = "lurr";
+        const WORD_ID = "shunch";
         const STORAGE_KEY = "oneword_heart_sent_" + WORD_ID + "_v1";
         const SENT_TEXT = "оставлено";
 
