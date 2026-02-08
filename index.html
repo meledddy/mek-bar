@@ -1,467 +1,257 @@
 <!doctype html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>Մեկ բառ / Одно слово</title>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Մեկ բառ / Одно слово</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Armenian:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Armenian:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 
-    <style>
-      :root {
-        --bg0: #050710;
-        --bg1: #0a1230;
+<style>
+:root{
+--bg0:#050710;
+--bg1:#0a1230;
+--stroke:rgba(255,255,255,.10);
+--stroke2:rgba(255,255,255,.08);
+--text:rgba(255,255,255,.92);
+--muted:rgba(255,255,255,.60);
+--muted2:rgba(255,255,255,.46);
+--dot:#e8c36a;
+--gold:rgba(232,195,106,.80);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
 
-        --stroke: rgba(255, 255, 255, 0.10);
-        --stroke2: rgba(255, 255, 255, 0.08);
+body{
+margin:0;
+color:var(--text);
+font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+background:
+radial-gradient(1200px 700px at 70% 20%, rgba(40,70,160,.35), transparent 55%),
+radial-gradient(900px 600px at 25% 0%, rgba(170,120,60,.18), transparent 55%),
+linear-gradient(180deg,var(--bg0),var(--bg1));
+overflow-x:hidden;
+}
 
-        --text: rgba(255, 255, 255, 0.92);
-        --muted: rgba(255, 255, 255, 0.60);
-        --muted2: rgba(255, 255, 255, 0.46);
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+.bg::before{
+content:"";
+position:absolute;inset:0;
+background:linear-gradient(
+180deg,
+rgba(162,58,58,.05) 0%,
+rgba(38,73,140,.06) 45%,
+rgba(197,128,52,.05) 100%);
+}
 
-        --dot: #e8c36a;
-        --gold: rgba(232, 195, 106, 0.80);
-      }
+.bg .glowline{
+position:absolute;
+left:50%;
+top:-20vh;
+transform:translateX(-50%);
+width:min(1200px,140vw);
+height:60vh;
+background:radial-gradient(closest-side, rgba(120,160,255,.16), transparent 70%);
+}
 
-      * { box-sizing: border-box; }
-      html, body { height: 100%; }
+.bg .vignette{
+position:absolute;inset:0;
+background:radial-gradient(1200px 900px at 50% 30%, transparent 35%, rgba(0,0,0,.55) 90%);
+}
 
-      body {
-        margin: 0;
-        color: var(--text);
-        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-        background:
-          radial-gradient(1200px 700px at 70% 20%, rgba(40, 70, 160, 0.35), transparent 55%),
-          radial-gradient(900px 600px at 25% 0%, rgba(170, 120, 60, 0.18), transparent 55%),
-          linear-gradient(180deg, var(--bg0), var(--bg1));
-        overflow-x: hidden;
-      }
+.wrap{
+position:relative;
+z-index:1;
+min-height:100%;
+display:grid;
+place-items:center;
+padding:28px 16px;
+}
 
-      /* ===== Decorative background layer ===== */
-      .bg {
-        position: fixed;
-        inset: 0;
-        z-index: 0;
-        pointer-events: none;
-      }
+.card{
+width:min(560px,92vw);
+border-radius:22px;
+background:linear-gradient(180deg, rgba(12,18,38,.62), rgba(8,12,24,.62));
+border:1px solid var(--stroke);
+box-shadow:0 24px 80px rgba(0,0,0,.55);
+backdrop-filter:blur(14px);
+overflow:hidden;
+}
 
-      .bg::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-          180deg,
-          rgba(162, 58, 58, 0.05) 0%,
-          rgba(38, 73, 140, 0.06) 45%,
-          rgba(197, 128, 52, 0.05) 100%
-        );
-        opacity: 1;
-      }
+.card-inner{padding:18px}
 
-      .bg .glowline {
-        position: absolute;
-        left: 50%;
-        top: -20vh;
-        transform: translateX(-50%);
-        width: min(1200px, 140vw);
-        height: 60vh;
-        background: radial-gradient(closest-side, rgba(120, 160, 255, 0.16), transparent 70%);
-        opacity: 0.85;
-      }
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:10px;
+}
 
-      .pomegranate {
-        position: absolute;
-        right: clamp(16px, 6vw, 72px);
-        bottom: clamp(18px, 6vh, 64px);
-        width: clamp(140px, 22vw, 240px);
-        opacity: 0.55;
-      }
-      .pomegranate svg { width: 100%; height: auto; display: block; }
+.brand{
+font-family:"Noto Sans Armenian";
+font-size:12px;
+letter-spacing:.14em;
+color:var(--muted2);
+text-transform:uppercase;
+}
 
-      .bg .vignette {
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(1200px 900px at 50% 30%, transparent 35%, rgba(0, 0, 0, 0.55) 90%);
-        opacity: 0.9;
-      }
+.pill{
+display:flex;
+align-items:center;
+gap:8px;
+font-size:12px;
+background:rgba(255,255,255,.06);
+border:1px solid rgba(255,255,255,.10);
+padding:6px 10px;
+border-radius:999px;
+}
 
-      /* ===== Layout ===== */
-      .wrap {
-        position: relative;
-        z-index: 1;
-        min-height: 100%;
-        display: grid;
-        place-items: center;
-        padding: 28px 16px;
-      }
+.dot{
+width:6px;height:6px;
+border-radius:999px;
+background:var(--dot);
+}
 
-      .card {
-        position: relative;
-        width: min(560px, 92vw);
-        border-radius: 22px;
-        background: linear-gradient(180deg, rgba(12, 18, 38, 0.62), rgba(8, 12, 24, 0.62));
-        border: 1px solid var(--stroke);
-        box-shadow:
-          0 24px 80px rgba(0, 0, 0, 0.55),
-          inset 0 1px 0 rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
-        overflow: hidden;
-      }
+.word{
+font-family:"Noto Sans Armenian";
+font-size:56px;
+font-weight:700;
+margin:8px 0 12px;
+}
 
-      .card::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: repeating-linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.03) 0,
-          rgba(255, 255, 255, 0.03) 2px,
-          transparent 2px,
-          transparent 14px
-        );
-        opacity: 0.35;
-        pointer-events: none;
-      }
+.chips{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap}
 
-      .card-inner { position: relative; padding: 18px 18px 14px 18px; }
+.chip{
+padding:6px 10px;
+border-radius:999px;
+border:1px solid var(--stroke2);
+background:rgba(255,255,255,.05);
+font-size:12px;
+}
 
-      .topbar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        padding-bottom: 10px;
-      }
+.meaning{font-weight:600;margin-bottom:10px}
 
-      .brand {
-        font-family: "Noto Sans Armenian", Inter, system-ui, sans-serif;
-        font-size: 12px;
-        letter-spacing: 0.14em;
-        color: var(--muted2);
-        text-transform: uppercase;
-      }
+.desc{color:var(--muted);line-height:1.6;margin-bottom:10px}
 
-      .pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 12px;
-        color: rgba(255, 255, 255, 0.78);
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(255, 255, 255, 0.10);
-        padding: 7px 10px;
-        border-radius: 999px;
-        user-select: none;
-      }
+.touch{color:var(--gold);line-height:1.6;margin-bottom:12px}
 
-      .pill .dot {
-        width: 7px;
-        height: 7px;
-        border-radius: 999px;
-        background: var(--dot);
-        box-shadow: 0 0 0 3px rgba(232, 195, 106, 0.14);
-      }
+.signal{
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-top:1px solid rgba(255,255,255,.08);
+padding-top:12px;
+}
 
-      .word {
-        font-family: "Noto Sans Armenian", Inter, system-ui, sans-serif;
-        font-weight: 700;
-        font-size: 56px;
-        line-height: 1.05;
-        letter-spacing: -0.03em;
-        margin: 6px 0 12px 0;
-      }
+.hint{font-size:12px;color:rgba(255,255,255,.42)}
 
-      .chips { display: flex; gap: 10px; flex-wrap: wrap; margin: 0 0 12px 0; }
+.heart{
+border:1px solid rgba(255,255,255,.10);
+background:rgba(255,255,255,.06);
+color:white;
+border-radius:999px;
+padding:7px 12px;
+cursor:pointer;
+font-size:12px;
+}
 
-      .chip {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 7px 10px;
-        border-radius: 999px;
-        border: 1px solid var(--stroke2);
-        background: rgba(255, 255, 255, 0.05);
-        color: rgba(255, 255, 255, 0.76);
-        font-size: 12px;
-      }
+.footer{
+display:flex;
+justify-content:space-between;
+font-size:12px;
+color:rgba(255,255,255,.38);
+margin-top:12px;
+}
 
-      .chip strong { font-weight: 600; color: rgba(255, 255, 255, 0.88); }
+.archive-link{
+color:rgba(255,255,255,.55);
+text-decoration:none;
+border-bottom:1px solid rgba(255,255,255,.15);
+}
+</style>
+</head>
 
-      .meaning {
-        font-weight: 600;
-        font-size: 16px;
-        margin: 10px 0 10px 0;
-        color: rgba(255, 255, 255, 0.88);
-      }
+<body>
+<div class="bg">
+<div class="glowline"></div>
+<div class="vignette"></div>
+</div>
 
-      .desc {
-        margin: 0 0 10px 0;
-        color: var(--muted);
-        font-size: 14px;
-        line-height: 1.55;
-      }
+<main class="wrap">
+<section class="card">
+<div class="card-inner">
 
-      .touch {
-        margin: 0 0 12px 0;
-        font-size: 14px;
-        line-height: 1.55;
-        color: var(--gold);
-      }
+<div class="topbar">
+<div class="brand">մեկ բառ</div>
+<div class="pill"><span class="dot"></span>одно слово</div>
+</div>
 
-      /* ===== Soft signal (heart) ===== */
-      .signal {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        margin: 10px 0 0 0;
-        padding-top: 12px;
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
-      }
+<h1 class="word">Մոտ</h1>
 
-      .signal .hint {
-        color: rgba(255, 255, 255, 0.42);
-        font-size: 12px;
-        line-height: 1.35;
-      }
+<div class="chips">
+<div class="chip">лат.: <strong>mot</strong></div>
+<div class="chip">рус.: <strong>мот</strong></div>
+</div>
 
-      .heart {
-        appearance: none;
-        border: 1px solid rgba(255, 255, 255, 0.10);
-        background: rgba(255, 255, 255, 0.06);
-        color: rgba(255, 255, 255, 0.88);
-        border-radius: 999px;
-        padding: 8px 12px;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 12px;
-        user-select: none;
-        transition: transform 120ms ease, background 160ms ease, border-color 160ms ease;
-        white-space: nowrap;
-      }
+<div class="meaning">Близко · Рядом</div>
 
-      .heart:hover { background: rgba(255, 255, 255, 0.10); }
-      .heart:active { transform: translateY(1px); }
+<p class="desc">
+Иногда расстояние — только про километры.  
+Всё остальное может оставаться рядом.
+</p>
 
-      .heart .icon { font-size: 14px; line-height: 1; }
-      .heart.sent {
-        border-color: rgba(232, 195, 106, 0.30);
-        box-shadow: 0 0 0 4px rgba(232, 195, 106, 0.10);
-        cursor: default;
-      }
+<p class="touch">
+Я рядом.  
+Даже если не касаюсь.
+</p>
 
-      .footer {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        padding-top: 12px;
-        color: rgba(255, 255, 255, 0.38);
-        font-size: 12px;
-      }
+<div class="signal">
+<div class="hint">Если захочешь — оставь маленький след.</div>
+<button class="heart" id="heartBtn">🤍 оставить</button>
+</div>
 
-      .archive-link {
-        color: rgba(255, 255, 255, 0.55);
-        text-decoration: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-        padding-bottom: 2px;
-      }
-      .archive-link:hover { color: rgba(255, 255, 255, 0.78); }
+<div class="footer">
+<div>для тебя🫶</div>
+<div><a class="archive-link" href="archive/">архив</a></div>
+</div>
 
-      @media (prefers-reduced-motion: no-preference) {
-        .card { animation: cardIn 420ms ease-out both; }
-        @keyframes cardIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-      }
-    </style>
-  </head>
+</div>
+</section>
+</main>
 
-  <body>
-    <div class="bg" aria-hidden="true">
-      <div class="glowline"></div>
+<script data-goatcounter="https://meledddy.goatcounter.com/count"
+async src="https://gc.zgo.at/count.js"></script>
 
-      <div class="pomegranate" aria-hidden="true">
-        <svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="armFlagHint" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#b23a3a" stop-opacity="0.55" />
-              <stop offset="52%" stop-color="#2f5aa0" stop-opacity="0.55" />
-              <stop offset="100%" stop-color="#c48734" stop-opacity="0.55" />
-            </linearGradient>
+<script>
+(function(){
+const btn=document.getElementById("heartBtn");
+if(!btn) return;
 
-            <radialGradient id="softGlow" cx="45%" cy="30%" r="75%">
-              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.22" />
-              <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
-            </radialGradient>
-          </defs>
+const WORD_ID="mot";
+const KEY="heart_"+WORD_ID;
 
-          <path
-            d="M160 38
-               C150 54 138 62 124 66
-               C132 68 142 66 150 62
-               C150 78 132 92 114 98
-               C80 110 58 140 58 178
-               C58 240 104 282 160 282
-               C216 282 262 240 262 178
-               C262 140 240 110 206 98
-               C188 92 170 78 170 62
-               C178 66 188 68 196 66
-               C182 62 170 54 160 38 Z"
-            fill="url(#armFlagHint)"
-            opacity="0.18"
-          />
-          <path
-            d="M160 72
-               C126 86 104 116 104 156
-               C104 212 132 244 160 256
-               C188 244 216 212 216 156
-               C216 116 194 86 160 72 Z"
-            fill="url(#softGlow)"
-            opacity="0.30"
-          />
+if(localStorage.getItem(KEY)){
+btn.textContent="🤍 оставлено";
+btn.disabled=true;
+return;
+}
 
-          <circle cx="130" cy="170" r="10" fill="#ffffff" opacity="0.07" />
-          <circle cx="160" cy="154" r="11" fill="#ffffff" opacity="0.06" />
-          <circle cx="190" cy="174" r="10" fill="#ffffff" opacity="0.07" />
-          <circle cx="150" cy="198" r="9" fill="#ffffff" opacity="0.06" />
-          <circle cx="176" cy="206" r="9" fill="#ffffff" opacity="0.06" />
+btn.onclick=()=>{
+btn.textContent="🤍 оставлено";
+btn.disabled=true;
+localStorage.setItem(KEY,"1");
 
-          <path
-            d="M160 38
-               C150 54 138 62 124 66
-               C132 68 142 66 150 62
-               C150 78 132 92 114 98
-               C80 110 58 140 58 178
-               C58 240 104 282 160 282
-               C216 282 262 240 262 178
-               C262 140 240 110 206 98
-               C188 92 170 78 170 62
-               C178 66 188 68 196 66
-               C182 62 170 54 160 38 Z"
-            fill="none"
-            stroke="#ffffff"
-            stroke-opacity="0.08"
-            stroke-width="2"
-          />
-        </svg>
-      </div>
+if(window.goatcounter){
+goatcounter.count({
+path:"/signal/heart/"+WORD_ID,
+event:true
+});
+}
+};
+})();
+</script>
 
-      <div class="vignette"></div>
-    </div>
-
-    <main class="wrap">
-      <section class="card">
-        <div class="card-inner">
-          <div class="topbar">
-            <div class="brand">մեկ բառ</div>
-            <div class="pill"><span class="dot"></span>одно слово</div>
-          </div>
-
-          <!-- WORD OF THE DAY -->
-          <h1 class="word">Շունչ</h1>
-
-          <div class="chips">
-            <div class="chip"><span>лат.:</span><strong>shunch</strong></div>
-            <div class="chip"><span>рус.:</span><strong>шунч</strong></div>
-          </div>
-
-          <div class="meaning">Дыхание · Тёплая пауза</div>
-
-          <p class="desc">
-            Когда я думаю о тебе, становится тише - и остаётся только дыхание. Твоё. Моё. Одно рядом с другим.
-          </p>
-
-          <p class="touch">
-            Сделай один спокойный вдох.<br />
-            И на выдохе - вспомни меня.<br />
-          </p>
-
-          <!-- Soft signal -->
-          <div class="signal" aria-label="Мягкий сигнал">
-            <div class="hint">Если захочешь — оставь маленький след.</div>
-            <button class="heart" id="heartBtn" type="button">
-              <span class="icon">🤍</span>
-              <span class="txt">оставить</span>
-            </button>
-          </div>
-
-          <div class="footer">
-            <div>для тебя🫶</div>
-            <div>
-              <a class="archive-link" href="archive/">архив</a>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <!-- GoatCounter -->
-    <script
-      data-goatcounter="https://meledddy.goatcounter.com/count"
-      async
-      src="https://gc.zgo.at/count.js"
-    ></script>
-
-    <script>
-      (function () {
-        const btn = document.getElementById("heartBtn");
-        if (!btn) return;
-
-        const WORD_ID = "shunch";
-        const STORAGE_KEY = "oneword_heart_sent_" + WORD_ID + "_v1";
-        const SENT_TEXT = "оставлено";
-
-        function setSentUI() {
-          btn.classList.add("sent");
-          btn.disabled = true;
-          const txt = btn.querySelector(".txt");
-          if (txt) txt.textContent = SENT_TEXT;
-        }
-
-        try {
-          if (localStorage.getItem(STORAGE_KEY) === "1") {
-            setSentUI();
-            return;
-          }
-        } catch (_) {}
-
-        btn.addEventListener("click", function () {
-          setSentUI();
-
-          try { localStorage.setItem(STORAGE_KEY, "1"); } catch (_) {}
-
-          try {
-            const path = "/signal/heart/" + WORD_ID;
-
-            if (window.goatcounter && typeof window.goatcounter.count === "function") {
-              window.goatcounter.count({
-                path,
-                title: "soft-signal-heart-" + WORD_ID,
-                event: true
-              });
-            } else {
-              const img = new Image();
-              img.referrerPolicy = "no-referrer-when-downgrade";
-              img.src =
-                "https://meledddy.goatcounter.com/count?p=" +
-                encodeURIComponent(path) +
-                "&t=" +
-                encodeURIComponent("soft-signal-heart-" + WORD_ID) +
-                "&e=1";
-            }
-          } catch (_) {}
-        });
-      })();
-    </script>
-  </body>
+</body>
 </html>
