@@ -45,7 +45,6 @@ rgba(162,58,58,.05) 0%,
 rgba(38,73,140,.06) 45%,
 rgba(197,128,52,.05) 100%);
 }
-
 .bg .glowline{
 position:absolute;
 left:50%;
@@ -55,7 +54,6 @@ width:min(1200px,140vw);
 height:60vh;
 background:radial-gradient(closest-side, rgba(120,160,255,.16), transparent 70%);
 }
-
 .bg .vignette{
 position:absolute;inset:0;
 background:radial-gradient(1200px 900px at 50% 30%, transparent 35%, rgba(0,0,0,.55) 90%);
@@ -188,27 +186,27 @@ border-bottom:1px solid rgba(255,255,255,.15);
 <div class="pill"><span class="dot"></span>одно слово</div>
 </div>
 
-<h1 class="word">Մոտ</h1>
+<h1 class="word">Քաղցր</h1>
 
 <div class="chips">
-<div class="chip">лат.: <strong>mot</strong></div>
-<div class="chip">рус.: <strong>мот</strong></div>
+<div class="chip">лат.: <strong>kaghcr</strong></div>
+<div class="chip">рус.: <strong>кахцр</strong></div>
 </div>
 
-<div class="meaning">Близко · Рядом</div>
+<div class="meaning">Сладкий · Нежно-приятный</div>
 
 <p class="desc">
-Иногда расстояние - только про километры.  
-Всё остальное может оставаться рядом.
+Ты любишь сладкое.<br>
+И я думаю - наверное, потому что сама такая.
 </p>
 
 <p class="touch">
-Я рядом.  
-Даже если не касаюсь.
+От тебя остаётся вкус тепла.<br>
+Даже если мы далеко.
 </p>
 
 <div class="signal">
-<div class="hint"> Оставь маленький след.</div>
+<div class="hint">Оставь маленький след.</div>
 <button class="heart" id="heartBtn">🤍 оставить</button>
 </div>
 
@@ -229,7 +227,7 @@ async src="https://gc.zgo.at/count.js"></script>
 const btn=document.getElementById("heartBtn");
 if(!btn) return;
 
-const WORD_ID="mot";
+const WORD_ID="kaghcr";
 const KEY="heart_"+WORD_ID;
 
 if(localStorage.getItem(KEY)){
