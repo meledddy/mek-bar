@@ -54,5 +54,13 @@
     "latin": "tank",
     "ru": "танк",
     "stress": "танк"
+  },
+  {
+    "id": "miasin",
+    "hy": "Միասին",
+    "short": "Вместе",
+    "latin": "miasin",
+    "ru": "миасин",
+    "stress": "миасин"
   }
 ]
