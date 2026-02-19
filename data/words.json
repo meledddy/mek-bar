@@ -62,5 +62,12 @@
     "latin": "miasin",
     "ru": "миасин",
     "stress": "миасин"
+  }, 
+  { "id": "tun", 
+    "hy": "Տուն", 
+    "short": "Дом", 
+    "latin": "tun", 
+    "ru": "тун", 
+    "stress": "тун" 
   }
 ]
