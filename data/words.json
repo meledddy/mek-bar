@@ -1,73 +1,12 @@
 [
-  {
-    "id": "ser",
-    "hy": "Սեր",
-    "short": "Нежность · Любовь",
-    "latin": "ser",
-    "ru": "сэр",
-    "stress": "сэ́р"
-  },
-  {
-    "id": "merz",
-    "hy": "Մերձ",
-    "short": "Близко · Рядом · Почти касаясь",
-    "latin": "merz",
-    "ru": "мэрц",
-    "stress": "мэ́рц"
-  },
-  {
-    "id": "lurr",
-    "hy": "Լուռ",
-    "short": "Тихо · Без слов · Молча",
-    "latin": "lurr",
-    "ru": "лур",
-    "stress": "лур"
-  },
-  {
-    "id": "shunch",
-    "hy": "Շունչ",
-    "short": "Дыхание · Тёплая пауза",
-    "latin": "shunch",
-    "ru": "шунч",
-    "stress": "шунч"
-  },
-  {
-    "id": "mot",
-    "hy": "Մոտ",
-    "short": "Близко · Рядом",
-    "latin": "mot",
-    "ru": "мот",
-    "stress": "мот"
-  },
-  {
-    "id": "kaghcr",
-    "hy": "Քաղցր",
-    "short": "Сладкий · Тёплый",
-    "latin": "kaghcr",
-    "ru": "кахцр",
-    "stress": "кахцр"
-  },
-  {
-    "id": "tank",
-    "hy": "Թանկ",
-    "short": "Дорогая · Ценная",
-    "latin": "tank",
-    "ru": "танк",
-    "stress": "танк"
-  },
-  {
-    "id": "miasin",
-    "hy": "Միասին",
-    "short": "Вместе",
-    "latin": "miasin",
-    "ru": "миасин",
-    "stress": "миасин"
-  }, 
-  { "id": "tun", 
-    "hy": "Տուն", 
-    "short": "Дом", 
-    "latin": "tun", 
-    "ru": "тун", 
-    "stress": "тун" 
-  }
+  { "id": "ser", "hy": "Սեր", "short": "Нежность · Любовь", "latin": "ser", "ru": "сэр", "stress": "сéр" },
+  { "id": "merz", "hy": "Մերձ", "short": "Близко · Рядом · Почти касаясь", "latin": "merz", "ru": "мерц", "stress": "мéрц" },
+  { "id": "lurr", "hy": "Լուռ", "short": "Тихо · Без слов", "latin": "lurr", "ru": "лур", "stress": "лур" },
+  { "id": "shunch", "hy": "Շունչ", "short": "Дыхание · Тёплая пауза", "latin": "shunch", "ru": "шунч", "stress": "шунч" },
+  { "id": "mot", "hy": "Մոտ", "short": "Близко · Рядом", "latin": "mot", "ru": "мот", "stress": "мот" },
+  { "id": "kaghcr", "hy": "Քաղցր", "short": "Сладкий · Тёплый", "latin": "kaghcr", "ru": "кахцр", "stress": "кахцр" },
+  { "id": "tank", "hy": "Թանկ", "short": "Дорогая · Ценная", "latin": "tank", "ru": "танк", "stress": "танк" },
+  { "id": "miasin", "hy": "Միասին", "short": "Вместе", "latin": "miasin", "ru": "миасин", "stress": "миасин" },
+  { "id": "tun", "hy": "Տուն", "short": "Дом", "latin": "tun", "ru": "тун", "stress": "тун" },
+  { "id": "hangist", "hy": "Հանգիստ", "short": "Спокойно · Тишина внутри", "latin": "hangist", "ru": "хангист", "stress": "хангист" }
 ]
