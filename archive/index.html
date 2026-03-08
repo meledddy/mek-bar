@@ -16,14 +16,10 @@
       :root {
         --bg0: #050710;
         --bg1: #0a1230;
-
         --stroke: rgba(255, 255, 255, 0.10);
-        --stroke2: rgba(255, 255, 255, 0.08);
-
         --text: rgba(255, 255, 255, 0.92);
         --muted: rgba(255, 255, 255, 0.60);
         --muted2: rgba(255, 255, 255, 0.46);
-
         --cardA: rgba(12, 18, 38, 0.58);
         --cardB: rgba(8, 12, 24, 0.55);
       }
@@ -68,21 +64,25 @@
         color: var(--muted2);
       }
 
-      /* NEW: quiet back link */
       a.back {
-        color: rgba(255,255,255,0.70);
+        color: rgba(255, 255, 255, 0.70);
         text-decoration: none;
         font-size: 13px;
-        border-bottom: 1px solid rgba(255,255,255,0.12);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
         padding-bottom: 2px;
       }
-      a.back:hover { color: rgba(255,255,255,0.86); }
+
+      a.back:hover {
+        color: rgba(255, 255, 255, 0.86);
+      }
 
       .shelf {
         border: 1px solid var(--stroke);
         border-radius: 18px;
         background: linear-gradient(180deg, var(--cardA), var(--cardB));
-        box-shadow: 0 24px 80px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.05);
+        box-shadow:
+          0 24px 80px rgba(0, 0, 0, 0.55),
+          inset 0 1px 0 rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(14px);
         -webkit-backdrop-filter: blur(14px);
         overflow: hidden;
@@ -94,28 +94,33 @@
         justify-content: space-between;
         gap: 10px;
         padding: 14px 14px 10px;
-        border-bottom: 1px solid rgba(255,255,255,0.08);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       }
 
       .hint {
         font-size: 13px;
-        color: rgba(255,255,255,0.55);
+        color: rgba(255, 255, 255, 0.55);
         line-height: 1.4;
       }
 
       .search {
         width: min(280px, 46vw);
         border-radius: 12px;
-        border: 1px solid rgba(255,255,255,0.10);
-        background: rgba(255,255,255,0.05);
-        color: rgba(255,255,255,0.86);
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        background: rgba(255, 255, 255, 0.05);
+        color: rgba(255, 255, 255, 0.86);
         padding: 10px 12px;
         font-size: 13px;
         outline: none;
       }
 
-      .search::placeholder { color: rgba(255,255,255,0.40); }
-      .search:focus { border-color: rgba(255,255,255,0.18); }
+      .search::placeholder {
+        color: rgba(255, 255, 255, 0.40);
+      }
+
+      .search:focus {
+        border-color: rgba(255, 255, 255, 0.18);
+      }
 
       .grid {
         display: grid;
@@ -125,19 +130,31 @@
       }
 
       @media (max-width: 760px) {
-        .grid { grid-template-columns: repeat(2, 1fr); }
+        .grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
       }
+
       @media (max-width: 380px) {
-        .grid { grid-template-columns: 1fr; }
-        .search { width: 100%; }
-        .shelfTop { flex-direction: column; align-items: stretch; }
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .search {
+          width: 100%;
+        }
+
+        .shelfTop {
+          flex-direction: column;
+          align-items: stretch;
+        }
       }
 
       .item {
         text-align: left;
         border-radius: 16px;
-        border: 1px solid rgba(255,255,255,0.10);
-        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        background: rgba(255, 255, 255, 0.04);
         padding: 12px 12px 10px;
         cursor: pointer;
         user-select: none;
@@ -146,36 +163,34 @@
 
       .item:hover {
         transform: translateY(-1px);
-        border-color: rgba(255,255,255,0.16);
-        background: rgba(255,255,255,0.06);
+        border-color: rgba(255, 255, 255, 0.16);
+        background: rgba(255, 255, 255, 0.06);
       }
 
-      /* FIX: Armenian words were dark — force bright color + subtle shadow */
       .hy {
         font-family: "Noto Sans Armenian", Inter, system-ui, sans-serif;
         font-weight: 700;
         font-size: 22px;
         letter-spacing: -0.02em;
         margin: 0 0 6px 0;
-        color: rgba(255,255,255,0.95);
-        text-shadow: 0 1px 10px rgba(0,0,0,0.55);
+        color: rgba(255, 255, 255, 0.95);
+        text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55);
       }
 
       .short {
         font-size: 12.5px;
-        color: rgba(255,255,255,0.62);
+        color: rgba(255, 255, 255, 0.62);
         line-height: 1.35;
         margin: 0;
       }
 
       .empty {
         padding: 18px 14px 20px;
-        color: rgba(255,255,255,0.55);
+        color: rgba(255, 255, 255, 0.55);
         font-size: 13px;
         display: none;
       }
 
-      /* ===== Modal ===== */
       .modalOverlay {
         position: fixed;
         inset: 0;
@@ -183,17 +198,20 @@
         align-items: center;
         justify-content: center;
         padding: 16px;
-        background: rgba(0,0,0,0.55);
+        background: rgba(0, 0, 0, 0.55);
         z-index: 50;
       }
-      .modalOverlay[data-open="true"] { display: flex; }
+
+      .modalOverlay[data-open="true"] {
+        display: flex;
+      }
 
       .modal {
         width: min(520px, 94vw);
         border-radius: 18px;
-        border: 1px solid rgba(255,255,255,0.12);
+        border: 1px solid rgba(255, 255, 255, 0.12);
         background: linear-gradient(180deg, rgba(12, 18, 38, 0.76), rgba(8, 12, 24, 0.76));
-        box-shadow: 0 26px 90px rgba(0,0,0,0.60);
+        box-shadow: 0 26px 90px rgba(0, 0, 0, 0.60);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
         overflow: hidden;
@@ -205,7 +223,7 @@
         justify-content: space-between;
         gap: 12px;
         padding: 14px 14px 10px;
-        border-bottom: 1px solid rgba(255,255,255,0.08);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       }
 
       .modalTitle {
@@ -213,34 +231,39 @@
         font-weight: 700;
         font-size: 22px;
         margin: 0;
-        color: rgba(255,255,255,0.95);
+        color: rgba(255, 255, 255, 0.95);
       }
 
       .closeBtn {
-        border: 1px solid rgba(255,255,255,0.10);
-        background: rgba(255,255,255,0.05);
-        color: rgba(255,255,255,0.80);
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        background: rgba(255, 255, 255, 0.05);
+        color: rgba(255, 255, 255, 0.80);
         border-radius: 12px;
         padding: 8px 10px;
         font-size: 13px;
         cursor: pointer;
       }
-      .closeBtn:hover { background: rgba(255,255,255,0.07); }
 
-      .modalBody { padding: 12px 14px 14px; }
+      .closeBtn:hover {
+        background: rgba(255, 255, 255, 0.07);
+      }
+
+      .modalBody {
+        padding: 12px 14px 14px;
+      }
 
       .label {
         font-size: 12px;
         letter-spacing: 0.10em;
         text-transform: uppercase;
-        color: rgba(255,255,255,0.45);
+        color: rgba(255, 255, 255, 0.45);
         margin-bottom: 6px;
       }
 
       .mutedLine {
         margin: 0 0 12px 0;
         font-size: 13px;
-        color: rgba(255,255,255,0.50);
+        color: rgba(255, 255, 255, 0.50);
         line-height: 1.5;
       }
 
@@ -256,12 +279,16 @@
         gap: 6px;
         padding: 8px 10px;
         border-radius: 999px;
-        border: 1px solid rgba(255,255,255,0.10);
-        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        background: rgba(255, 255, 255, 0.05);
         font-size: 13px;
-        color: rgba(255,255,255,0.78);
+        color: rgba(255, 255, 255, 0.78);
       }
-      .pill strong { color: rgba(255,255,255,0.92); font-weight: 600; }
+
+      .pill strong {
+        color: rgba(255, 255, 255, 0.92);
+        font-weight: 600;
+      }
     </style>
   </head>
 
@@ -276,7 +303,14 @@
         <section class="shelf" aria-label="Архив слов">
           <div class="shelfTop">
             <div class="hint">Можно вернуться к любому слову.</div>
-            <input id="q" class="search" type="search" inputmode="search" placeholder="поиск…" aria-label="Поиск по словам" />
+            <input
+              id="q"
+              class="search"
+              type="search"
+              inputmode="search"
+              placeholder="поиск…"
+              aria-label="Поиск по словам"
+            />
           </div>
 
           <div id="grid" class="grid" role="list"></div>
@@ -285,7 +319,6 @@
       </div>
     </main>
 
-    <!-- Modal -->
     <div id="overlay" class="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="mTitle" data-open="false">
       <div class="modal">
         <div class="modalHeader">
@@ -369,15 +402,25 @@
       function closeModal() {
         overlay.dataset.open = "false";
         document.body.style.overflow = "";
-        if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+        if (lastFocus && typeof lastFocus.focus === "function") {
+          lastFocus.focus();
+        }
       }
 
       function applyFilter() {
         const term = (q.value || "").trim().toLowerCase();
-        if (!term) return render(words);
+
+        if (!term) {
+          render(words);
+          return;
+        }
 
         const filtered = words.filter((w) => {
-          const hay = [w.hy, w.short, w.latin, w.ru, w.stress].filter(Boolean).join(" ").toLowerCase();
+          const hay = [w.hy, w.short, w.latin, w.ru, w.stress]
+            .filter(Boolean)
+            .join(" ")
+            .toLowerCase();
+
           return hay.includes(term);
         });
 
@@ -385,9 +428,11 @@
       }
 
       closeBtn.addEventListener("click", closeModal);
+
       overlay.addEventListener("click", (e) => {
         if (e.target === overlay) closeModal();
       });
+
       window.addEventListener("keydown", (e) => {
         if (overlay.dataset.open !== "true") return;
         if (e.key === "Escape") closeModal();
@@ -399,16 +444,20 @@
         try {
           const res = await fetch(DATA_URL, { cache: "no-store" });
           if (!res.ok) throw new Error("Failed to load words.json");
+
           words = await res.json();
 
-          // newest first (if JSON is old -> new)
-          words = [...words].reverse();
+          if (!Array.isArray(words)) {
+            throw new Error("words.json is not an array");
+          }
 
+          words = [...words].reverse();
           render(words);
         } catch (err) {
           grid.innerHTML = "";
           empty.style.display = "block";
           empty.textContent = "Не удалось загрузить архив.";
+          console.error(err);
         }
       })();
     </script>
