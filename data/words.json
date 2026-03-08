@@ -9,4 +9,6 @@
   { "id": "miasin", "hy": "Միասին", "short": "Вместе", "latin": "miasin", "ru": "миасин", "stress": "миасин" },
   { "id": "tun", "hy": "Տուն", "short": "Дом", "latin": "tun", "ru": "тун", "stress": "тун" },
   { "id": "hangist", "hy": "Հանգիստ", "short": "Спокойно · Тишина внутри", "latin": "hangist", "ru": "хангист", "stress": "хангист" }
+  { "id": "karot", "hy": "Կարոտ", "short": "Тоска · Скучаю", "latin": "karot", "ru": "карот", "stress": "карóт" }
 ]
+
